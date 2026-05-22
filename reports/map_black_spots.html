@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_4f48423e6322a3652f02cb0efd314697 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_4f48423e6322a3652f02cb0efd314697" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_4f48423e6322a3652f02cb0efd314697 = L.map(
+                "map_4f48423e6322a3652f02cb0efd314697",
+                {
+                    center: [8.6195, 0.8248],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 7,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d5102e3184bd2432f3cb8e7d99cc3e5e = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_d5102e3184bd2432f3cb8e7d99cc3e5e.addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+            var circle_marker_85124750014a228850f76a86c76e79b6 = L.circleMarker(
+                [6.150000095367432, 1.2000000476837158],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff0000", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 172.6, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_0ed96baae5dfcd913cfaf50afc4609d1 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_be54a7d90da9ad43bc8f000920f54f07 = $(`<div id="html_be54a7d90da9ad43bc8f000920f54f07" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #1</b><br>Accidents G/M : 1646<br>Décès : 1482<br>Taux mortalité : 43.2%<br>Coords : (6.150, 1.200)</div>`)[0];
+                popup_0ed96baae5dfcd913cfaf50afc4609d1.setContent(html_be54a7d90da9ad43bc8f000920f54f07);
+            
+        
+
+        circle_marker_85124750014a228850f76a86c76e79b6.bindPopup(popup_0ed96baae5dfcd913cfaf50afc4609d1)
+        ;
+
+        
+    
+    
+            circle_marker_85124750014a228850f76a86c76e79b6.bindTooltip(
+                `<div>
+                     Black Spot #1 — 1646 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_21525ec7d871862bdf8bce4997f45853 = L.circleMarker(
+                [6.25, 1.600000023841858],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ce3000", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 141.0, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_c1822b19cc63674ff528aa7cae578913 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_ff9d214aed1ea3f4e1bbaa45a55ab3e5 = $(`<div id="html_ff9d214aed1ea3f4e1bbaa45a55ab3e5" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #2</b><br>Accidents G/M : 1330<br>Décès : 1254<br>Taux mortalité : 42.9%<br>Coords : (6.250, 1.600)</div>`)[0];
+                popup_c1822b19cc63674ff528aa7cae578913.setContent(html_ff9d214aed1ea3f4e1bbaa45a55ab3e5);
+            
+        
+
+        circle_marker_21525ec7d871862bdf8bce4997f45853.bindPopup(popup_c1822b19cc63674ff528aa7cae578913)
+        ;
+
+        
+    
+    
+            circle_marker_21525ec7d871862bdf8bce4997f45853.bindTooltip(
+                `<div>
+                     Black Spot #2 — 1330 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_25a9fa66a1f39ef1d84b7ef17066ca29 = L.circleMarker(
+                [9.550000190734863, 1.2000000476837158],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c13d00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 132.6, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_342c7dd1ac0323a9cff9bb03978668de = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_4a181d634919884f1da32ecf9b223faa = $(`<div id="html_4a181d634919884f1da32ecf9b223faa" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #3</b><br>Accidents G/M : 1246<br>Décès : 1177<br>Taux mortalité : 44.5%<br>Coords : (9.550, 1.200)</div>`)[0];
+                popup_342c7dd1ac0323a9cff9bb03978668de.setContent(html_4a181d634919884f1da32ecf9b223faa);
+            
+        
+
+        circle_marker_25a9fa66a1f39ef1d84b7ef17066ca29.bindPopup(popup_342c7dd1ac0323a9cff9bb03978668de)
+        ;
+
+        
+    
+    
+            circle_marker_25a9fa66a1f39ef1d84b7ef17066ca29.bindTooltip(
+                `<div>
+                     Black Spot #3 — 1246 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ff04935e8b5a3dcbb251744f634a73f9 = L.circleMarker(
+                [6.450000286102295, 1.2000000476837158],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ae5000", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 120.4, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_c327c638727427586391be55e009581d = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_c29d0f82e81cf488a0578ab21ae044b3 = $(`<div id="html_c29d0f82e81cf488a0578ab21ae044b3" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #4</b><br>Accidents G/M : 1124<br>Décès : 1007<br>Taux mortalité : 42.1%<br>Coords : (6.450, 1.200)</div>`)[0];
+                popup_c327c638727427586391be55e009581d.setContent(html_c29d0f82e81cf488a0578ab21ae044b3);
+            
+        
+
+        circle_marker_ff04935e8b5a3dcbb251744f634a73f9.bindPopup(popup_c327c638727427586391be55e009581d)
+        ;
+
+        
+    
+    
+            circle_marker_ff04935e8b5a3dcbb251744f634a73f9.bindTooltip(
+                `<div>
+                     Black Spot #4 — 1124 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b7644d5937af347e91f8cc1472e7dc00 = L.circleMarker(
+                [9.75, 1.100000023841858],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aa5400", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 117.9, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_c313e97c921cbc8f5d770752cf5620e4 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_514db9fd5fc131045af4967798dde360 = $(`<div id="html_514db9fd5fc131045af4967798dde360" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #5</b><br>Accidents G/M : 1099<br>Décès : 997<br>Taux mortalité : 43.3%<br>Coords : (9.750, 1.100)</div>`)[0];
+                popup_c313e97c921cbc8f5d770752cf5620e4.setContent(html_514db9fd5fc131045af4967798dde360);
+            
+        
+
+        circle_marker_b7644d5937af347e91f8cc1472e7dc00.bindPopup(popup_c313e97c921cbc8f5d770752cf5620e4)
+        ;
+
+        
+    
+    
+            circle_marker_b7644d5937af347e91f8cc1472e7dc00.bindTooltip(
+                `<div>
+                     Black Spot #5 — 1099 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7b91e6264644eb24b43be04272f4459f = L.circleMarker(
+                [10.850000381469727, 0.20000000298023224],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a45a00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 114.5, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_c40256deafd9da111190d652cde348bc = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_4b9c44f30962120353229bc5b9fd2af8 = $(`<div id="html_4b9c44f30962120353229bc5b9fd2af8" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #6</b><br>Accidents G/M : 1065<br>Décès : 953<br>Taux mortalité : 42.0%<br>Coords : (10.850, 0.200)</div>`)[0];
+                popup_c40256deafd9da111190d652cde348bc.setContent(html_4b9c44f30962120353229bc5b9fd2af8);
+            
+        
+
+        circle_marker_7b91e6264644eb24b43be04272f4459f.bindPopup(popup_c40256deafd9da111190d652cde348bc)
+        ;
+
+        
+    
+    
+            circle_marker_7b91e6264644eb24b43be04272f4459f.bindTooltip(
+                `<div>
+                     Black Spot #6 — 1065 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9565759fea5c9b7ce320f67200a1b238 = L.circleMarker(
+                [6.200000286102295, 1.600000023841858],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#996500", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 107.0, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_4e6b1ba069dd952beae99724374942f2 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_b37c2c832328587476b2a700c30334d3 = $(`<div id="html_b37c2c832328587476b2a700c30334d3" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #7</b><br>Accidents G/M : 990<br>Décès : 870<br>Taux mortalité : 42.2%<br>Coords : (6.200, 1.600)</div>`)[0];
+                popup_4e6b1ba069dd952beae99724374942f2.setContent(html_b37c2c832328587476b2a700c30334d3);
+            
+        
+
+        circle_marker_9565759fea5c9b7ce320f67200a1b238.bindPopup(popup_4e6b1ba069dd952beae99724374942f2)
+        ;
+
+        
+    
+    
+            circle_marker_9565759fea5c9b7ce320f67200a1b238.bindTooltip(
+                `<div>
+                     Black Spot #7 — 990 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3b596e6f1d91cb4f212de1c992304099 = L.circleMarker(
+                [6.400000095367432, 1.2000000476837158],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#986600", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 106.7, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_76d905848026fea6c4ad48d0f9a38e36 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_693f870b7e35b88ba5e4488859735d94 = $(`<div id="html_693f870b7e35b88ba5e4488859735d94" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #8</b><br>Accidents G/M : 987<br>Décès : 911<br>Taux mortalité : 42.0%<br>Coords : (6.400, 1.200)</div>`)[0];
+                popup_76d905848026fea6c4ad48d0f9a38e36.setContent(html_693f870b7e35b88ba5e4488859735d94);
+            
+        
+
+        circle_marker_3b596e6f1d91cb4f212de1c992304099.bindPopup(popup_76d905848026fea6c4ad48d0f9a38e36)
+        ;
+
+        
+    
+    
+            circle_marker_3b596e6f1d91cb4f212de1c992304099.bindTooltip(
+                `<div>
+                     Black Spot #8 — 987 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_158654c3a4ebfb9ec55dc5da0afc798a = L.circleMarker(
+                [6.900000095367432, 0.6500000357627869],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#986600", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 106.5, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_40462b9712f467bb8a075c8a80d2eaf1 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_44b79575fcd955c67ecf9a8d27f479dc = $(`<div id="html_44b79575fcd955c67ecf9a8d27f479dc" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #9</b><br>Accidents G/M : 985<br>Décès : 898<br>Taux mortalité : 42.5%<br>Coords : (6.900, 0.650)</div>`)[0];
+                popup_40462b9712f467bb8a075c8a80d2eaf1.setContent(html_44b79575fcd955c67ecf9a8d27f479dc);
+            
+        
+
+        circle_marker_158654c3a4ebfb9ec55dc5da0afc798a.bindPopup(popup_40462b9712f467bb8a075c8a80d2eaf1)
+        ;
+
+        
+    
+    
+            circle_marker_158654c3a4ebfb9ec55dc5da0afc798a.bindTooltip(
+                `<div>
+                     Black Spot #9 — 985 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9dc3df5f4afbed5b115cade689c7f31e = L.circleMarker(
+                [7.599999904632568, 0.6000000238418579],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#906e00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 101.1, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_1198666f6d03e0d82c347f66e32df635 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_547153597111bfd72636313d580435d2 = $(`<div id="html_547153597111bfd72636313d580435d2" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #10</b><br>Accidents G/M : 931<br>Décès : 879<br>Taux mortalité : 41.7%<br>Coords : (7.600, 0.600)</div>`)[0];
+                popup_1198666f6d03e0d82c347f66e32df635.setContent(html_547153597111bfd72636313d580435d2);
+            
+        
+
+        circle_marker_9dc3df5f4afbed5b115cade689c7f31e.bindPopup(popup_1198666f6d03e0d82c347f66e32df635)
+        ;
+
+        
+    
+    
+            circle_marker_9dc3df5f4afbed5b115cade689c7f31e.bindTooltip(
+                `<div>
+                     Black Spot #10 — 931 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bbb57bed69e1de6e013a9049006efbef = L.circleMarker(
+                [9.050000190734863, 1.399999976158142],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#867800", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 94.8, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_6bd70c6ac4c6c1e0921c78e64a6a7345 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_046a3e27d090db8a56a9a9211c8c6e64 = $(`<div id="html_046a3e27d090db8a56a9a9211c8c6e64" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #11</b><br>Accidents G/M : 868<br>Décès : 805<br>Taux mortalité : 42.1%<br>Coords : (9.050, 1.400)</div>`)[0];
+                popup_6bd70c6ac4c6c1e0921c78e64a6a7345.setContent(html_046a3e27d090db8a56a9a9211c8c6e64);
+            
+        
+
+        circle_marker_bbb57bed69e1de6e013a9049006efbef.bindPopup(popup_6bd70c6ac4c6c1e0921c78e64a6a7345)
+        ;
+
+        
+    
+    
+            circle_marker_bbb57bed69e1de6e013a9049006efbef.bindTooltip(
+                `<div>
+                     Black Spot #11 — 868 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_29cad97d29c6c3bce106d8208a49ecbc = L.circleMarker(
+                [10.350000381469727, 0.45000001788139343],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#857900", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 94.0, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_e027b076b2a5b87aeb419cb1f0d2ddab = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_84204694f33b7c18e4f4a85e4eeed6b5 = $(`<div id="html_84204694f33b7c18e4f4a85e4eeed6b5" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #12</b><br>Accidents G/M : 860<br>Décès : 739<br>Taux mortalité : 41.2%<br>Coords : (10.350, 0.450)</div>`)[0];
+                popup_e027b076b2a5b87aeb419cb1f0d2ddab.setContent(html_84204694f33b7c18e4f4a85e4eeed6b5);
+            
+        
+
+        circle_marker_29cad97d29c6c3bce106d8208a49ecbc.bindPopup(popup_e027b076b2a5b87aeb419cb1f0d2ddab)
+        ;
+
+        
+    
+    
+            circle_marker_29cad97d29c6c3bce106d8208a49ecbc.bindTooltip(
+                `<div>
+                     Black Spot #12 — 860 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_187d3d6260f07d61db69444c232f27d4 = L.circleMarker(
+                [9.0, 1.149999976158142],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#837b00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 93.0, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_b5b74481e6f162b900c7d252337188a4 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_feb7458019099a3a72d967b08ad63a41 = $(`<div id="html_feb7458019099a3a72d967b08ad63a41" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #13</b><br>Accidents G/M : 850<br>Décès : 804<br>Taux mortalité : 44.8%<br>Coords : (9.000, 1.150)</div>`)[0];
+                popup_b5b74481e6f162b900c7d252337188a4.setContent(html_feb7458019099a3a72d967b08ad63a41);
+            
+        
+
+        circle_marker_187d3d6260f07d61db69444c232f27d4.bindPopup(popup_b5b74481e6f162b900c7d252337188a4)
+        ;
+
+        
+    
+    
+            circle_marker_187d3d6260f07d61db69444c232f27d4.bindTooltip(
+                `<div>
+                     Black Spot #13 — 850 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_260d76eb29ac32f9c6013e0df4405871 = L.circleMarker(
+                [7.550000190734863, 1.149999976158142],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#807e00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 91.2, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_7f33e5d5a5b2bd915e9fca74dadde19a = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_02f7a1752095ec7a3cbcf43ad58b3f35 = $(`<div id="html_02f7a1752095ec7a3cbcf43ad58b3f35" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #14</b><br>Accidents G/M : 832<br>Décès : 737<br>Taux mortalité : 41.5%<br>Coords : (7.550, 1.150)</div>`)[0];
+                popup_7f33e5d5a5b2bd915e9fca74dadde19a.setContent(html_02f7a1752095ec7a3cbcf43ad58b3f35);
+            
+        
+
+        circle_marker_260d76eb29ac32f9c6013e0df4405871.bindPopup(popup_7f33e5d5a5b2bd915e9fca74dadde19a)
+        ;
+
+        
+    
+    
+            circle_marker_260d76eb29ac32f9c6013e0df4405871.bindTooltip(
+                `<div>
+                     Black Spot #14 — 832 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e01426474b1ddaec351e36532fa348b6 = L.circleMarker(
+                [10.90000057220459, 0.20000000298023224],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#48b600", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 54.9, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_a2fe0af022891e59f677bae20dcc0453 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_1c0cd2df4ec9afeccdc30190e15ba8a5 = $(`<div id="html_1c0cd2df4ec9afeccdc30190e15ba8a5" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #15</b><br>Accidents G/M : 469<br>Décès : 408<br>Taux mortalité : 43.7%<br>Coords : (10.900, 0.200)</div>`)[0];
+                popup_a2fe0af022891e59f677bae20dcc0453.setContent(html_1c0cd2df4ec9afeccdc30190e15ba8a5);
+            
+        
+
+        circle_marker_e01426474b1ddaec351e36532fa348b6.bindPopup(popup_a2fe0af022891e59f677bae20dcc0453)
+        ;
+
+        
+    
+    
+            circle_marker_e01426474b1ddaec351e36532fa348b6.bindTooltip(
+                `<div>
+                     Black Spot #15 — 469 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2f51b06a3e180e5c84c0047ea9915e95 = L.circleMarker(
+                [6.150000095367432, 1.25],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#46b800", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 53.6, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_3ff29a8168cc46d5805372830524e9e5 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_37a9d0613f198989d1bb39cd7fb8f6ca = $(`<div id="html_37a9d0613f198989d1bb39cd7fb8f6ca" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #16</b><br>Accidents G/M : 456<br>Décès : 423<br>Taux mortalité : 43.6%<br>Coords : (6.150, 1.250)</div>`)[0];
+                popup_3ff29a8168cc46d5805372830524e9e5.setContent(html_37a9d0613f198989d1bb39cd7fb8f6ca);
+            
+        
+
+        circle_marker_2f51b06a3e180e5c84c0047ea9915e95.bindPopup(popup_3ff29a8168cc46d5805372830524e9e5)
+        ;
+
+        
+    
+    
+            circle_marker_2f51b06a3e180e5c84c0047ea9915e95.bindTooltip(
+                `<div>
+                     Black Spot #16 — 456 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a7e419da76b3e43bbb8ea35cd350df90 = L.circleMarker(
+                [9.800000190734863, 1.100000023841858],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#43bb00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 51.7, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_fb9c1477610ce922020660b760032d42 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_6644457b9536d8ce60dc68ba432ef817 = $(`<div id="html_6644457b9536d8ce60dc68ba432ef817" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #17</b><br>Accidents G/M : 437<br>Décès : 399<br>Taux mortalité : 42.3%<br>Coords : (9.800, 1.100)</div>`)[0];
+                popup_fb9c1477610ce922020660b760032d42.setContent(html_6644457b9536d8ce60dc68ba432ef817);
+            
+        
+
+        circle_marker_a7e419da76b3e43bbb8ea35cd350df90.bindPopup(popup_fb9c1477610ce922020660b760032d42)
+        ;
+
+        
+    
+    
+            circle_marker_a7e419da76b3e43bbb8ea35cd350df90.bindTooltip(
+                `<div>
+                     Black Spot #17 — 437 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_005bf5efaa8f8c7853fa309bb4e03d62 = L.circleMarker(
+                [6.099999904632568, 1.2000000476837158],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3fbf00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 49.2, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_c3c26a34b918ec202fcd13d561ba84ff = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_d9c32e00a4ba9f6440b2df23d5ee3d93 = $(`<div id="html_d9c32e00a4ba9f6440b2df23d5ee3d93" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #18</b><br>Accidents G/M : 412<br>Décès : 425<br>Taux mortalité : 47.1%<br>Coords : (6.100, 1.200)</div>`)[0];
+                popup_c3c26a34b918ec202fcd13d561ba84ff.setContent(html_d9c32e00a4ba9f6440b2df23d5ee3d93);
+            
+        
+
+        circle_marker_005bf5efaa8f8c7853fa309bb4e03d62.bindPopup(popup_c3c26a34b918ec202fcd13d561ba84ff)
+        ;
+
+        
+    
+    
+            circle_marker_005bf5efaa8f8c7853fa309bb4e03d62.bindTooltip(
+                `<div>
+                     Black Spot #18 — 412 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4f4b2bcb5ed60451384ab4d75be5d324 = L.circleMarker(
+                [6.900000095367432, 0.6000000238418579],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3fbf00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 48.7, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_19c12fbf8c34838c157d9bcaa5fc44f9 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_4f855c7a03614d64576972dfa697fd83 = $(`<div id="html_4f855c7a03614d64576972dfa697fd83" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #19</b><br>Accidents G/M : 407<br>Décès : 360<br>Taux mortalité : 40.5%<br>Coords : (6.900, 0.600)</div>`)[0];
+                popup_19c12fbf8c34838c157d9bcaa5fc44f9.setContent(html_4f855c7a03614d64576972dfa697fd83);
+            
+        
+
+        circle_marker_4f4b2bcb5ed60451384ab4d75be5d324.bindPopup(popup_19c12fbf8c34838c157d9bcaa5fc44f9)
+        ;
+
+        
+    
+    
+            circle_marker_4f4b2bcb5ed60451384ab4d75be5d324.bindTooltip(
+                `<div>
+                     Black Spot #19 — 407 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5e98c337b43f7c4d7ef7a12bbe5ddac0 = L.circleMarker(
+                [9.550000190734863, 1.149999976158142],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3ac400", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 45.5, "stroke": true, "weight": 3}
+            ).addTo(map_4f48423e6322a3652f02cb0efd314697);
+        
+    
+        var popup_488565aab293079eaf2d7f35cb69b6fe = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_cac31045a6d273fc959a832bdc50b25e = $(`<div id="html_cac31045a6d273fc959a832bdc50b25e" style="width: 100.0%; height: 100.0%;"><b>🚨 Black Spot #20</b><br>Accidents G/M : 375<br>Décès : 348<br>Taux mortalité : 46.7%<br>Coords : (9.550, 1.150)</div>`)[0];
+                popup_488565aab293079eaf2d7f35cb69b6fe.setContent(html_cac31045a6d273fc959a832bdc50b25e);
+            
+        
+
+        circle_marker_5e98c337b43f7c4d7ef7a12bbe5ddac0.bindPopup(popup_488565aab293079eaf2d7f35cb69b6fe)
+        ;
+
+        
+    
+    
+            circle_marker_5e98c337b43f7c4d7ef7a12bbe5ddac0.bindTooltip(
+                `<div>
+                     Black Spot #20 — 375 accidents
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>

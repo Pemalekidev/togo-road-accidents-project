@@ -1,0 +1,49 @@
+{
+  "meilleur_modele": "LightGBM",
+  "f1_macro": 0.9876,
+  "balanced_acc": 0.9872,
+  "auc_ovr": 0.9994,
+  "cv_f1_mean": 0.9892,
+  "top_features": {
+    "urgence_intervention": 5.192916584660245,
+    "vitesse_estimee": 2.2725872877871094,
+    "nombre_victimes": 1.740820949443065,
+    "is_nuit": 0.8831901911048184,
+    "luminosite_Nuit": 0.19310843090688476,
+    "limitation_vitesse": 0.1763279047997797,
+    "exces_vitesse_nuit": 0.14577498524422533,
+    "heure_cos": 0.1407987200489262,
+    "ratio_vitesse": 0.11596331234862838,
+    "victimes_risque": 0.09537515326746547
+  },
+  "comparaison": [
+    {
+      "Mod\u00e8le": "LightGBM",
+      "F1-macro (test)": "0.9876",
+      "Balanced Acc.": "0.9872",
+      "AUC-OvR": "0.9994",
+      "CV F1 (mean\u00b1std)": "0.9892 \u00b1 0.0016"
+    },
+    {
+      "Mod\u00e8le": "XGBoost",
+      "F1-macro (test)": "0.9874",
+      "Balanced Acc.": "0.9868",
+      "AUC-OvR": "0.9994",
+      "CV F1 (mean\u00b1std)": "0.9895 \u00b1 0.0019"
+    },
+    {
+      "Mod\u00e8le": "Random Forest",
+      "F1-macro (test)": "0.9855",
+      "Balanced Acc.": "0.9868",
+      "AUC-OvR": "0.9986",
+      "CV F1 (mean\u00b1std)": "0.9886 \u00b1 0.0011"
+    },
+    {
+      "Mod\u00e8le": "Logistic Regression",
+      "F1-macro (test)": "0.9052",
+      "Balanced Acc.": "0.9123",
+      "AUC-OvR": "0.9883",
+      "CV F1 (mean\u00b1std)": "0.9087 \u00b1 0.0038"
+    }
+  ]
+}

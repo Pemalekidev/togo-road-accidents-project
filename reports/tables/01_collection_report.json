@@ -1,0 +1,23 @@
+{
+  "shape": [
+    50500,
+    29
+  ],
+  "periode": "2022-01-01 → 2025-12-31",
+  "nb_colonnes": 29,
+  "nb_lignes": 50500,
+  "completude_pct": 99.18,
+  "nb_anomalies": "941",
+  "target_distribution": {
+    "Nombre": {
+      "Léger": 26881,
+      "Grave": 13410,
+      "Mortel": 10209
+    },
+    "Pourcentage (%)": {
+      "Léger": 53.23,
+      "Grave": 26.55,
+      "Mortel": 20.22
+    }
+  }
+}

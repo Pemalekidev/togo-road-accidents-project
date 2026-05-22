@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_metadata
+
+# Data (ne pas versionner les données brutes lourdes)
+data/raw/*.csv
+data/raw/*.xlsx
+data/processed/*.csv
+data/processed/*.pkl
+data/processed/*.parquet
+
+# Modèles entraînés (trop lourds pour Git)
+*.pkl
+*.joblib
+*.h5
+*.onnx
+
+# Environnement
+.env
+.env.local
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+
+# Reports (garder seulement les sources)
+reports/figures/*.png
+reports/figures/*.svg
+reports/tables/*.csv
+
+# DuckDB
+*.duckdb
+*.db

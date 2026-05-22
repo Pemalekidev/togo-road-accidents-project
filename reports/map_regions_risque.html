@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_0fe7a62d468a103467c211631cba510d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_0fe7a62d468a103467c211631cba510d" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_0fe7a62d468a103467c211631cba510d = L.map(
+                "map_0fe7a62d468a103467c211631cba510d",
+                {
+                    center: [8.6195, 0.8248],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 7,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_a1f4cbabe7979155d34ef04c1cb1f0ef = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_a1f4cbabe7979155d34ef04c1cb1f0ef.addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+    var color_map_d0c586635b449e83947addf569bd05a1 = {};
+
+    
+    color_map_d0c586635b449e83947addf569bd05a1.color = d3.scale.threshold()
+              .domain([19.292012106856166, 19.294215654361867, 19.296419201867565, 19.298622749373266, 19.300826296878967, 19.303029844384664, 19.305233391890365, 19.307436939396066, 19.309640486901763, 19.311844034407464, 19.31404758191316, 19.316251129418863, 19.318454676924564, 19.32065822443026, 19.322861771935962, 19.325065319441663, 19.32726886694736, 19.32947241445306, 19.331675961958762, 19.33387950946446, 19.33608305697016, 19.33828660447586, 19.34049015198156, 19.34269369948726, 19.34489724699296, 19.347100794498658, 19.34930434200436, 19.35150788951006, 19.353711437015757, 19.35591498452146, 19.358118532027156, 19.360322079532857, 19.362525627038558, 19.364729174544255, 19.366932722049956, 19.369136269555657, 19.371339817061354, 19.373543364567055, 19.375746912072756, 19.377950459578454, 19.380154007084155, 19.382357554589856, 19.384561102095553, 19.386764649601254, 19.388968197106955, 19.391171744612652, 19.393375292118353, 19.395578839624054, 19.39778238712975, 19.399985934635453, 19.40218948214115, 19.40439302964685, 19.406596577152552, 19.40880012465825, 19.41100367216395, 19.41320721966965, 19.41541076717535, 19.41761431468105, 19.41981786218675, 19.422021409692448, 19.42422495719815, 19.42642850470385, 19.428632052209547, 19.430835599715248, 19.43303914722095, 19.435242694726647, 19.437446242232348, 19.43964978973805, 19.441853337243746, 19.444056884749447, 19.446260432255144, 19.448463979760845, 19.450667527266546, 19.452871074772244, 19.455074622277944, 19.457278169783645, 19.459481717289343, 19.461685264795044, 19.463888812300745, 19.466092359806442, 19.468295907312143, 19.470499454817844, 19.47270300232354, 19.474906549829242, 19.477110097334943, 19.47931364484064, 19.48151719234634, 19.48372073985204, 19.48592428735774, 19.48812783486344, 19.49033138236914, 19.49253492987484, 19.49473847738054, 19.496942024886238, 19.49914557239194, 19.50134911989764, 19.503552667403337, 19.505756214909038, 19.50795976241474, 19.510163309920436, 19.512366857426137, 19.51457040493184, 19.516773952437536, 19.518977499943237, 19.521181047448938, 19.523384594954635, 19.525588142460336, 19.527791689966033, 19.529995237471734, 19.532198784977435, 19.534402332483133, 19.536605879988834, 19.538809427494535, 19.541012975000232, 19.543216522505933, 19.545420070011634, 19.54762361751733, 19.549827165023032, 19.552030712528733, 19.55423426003443, 19.55643780754013, 19.558641355045832, 19.56084490255153, 19.56304845005723, 19.56525199756293, 19.56745554506863, 19.56965909257433, 19.571862640080028, 19.57406618758573, 19.57626973509143, 19.578473282597127, 19.580676830102828, 19.58288037760853, 19.585083925114226, 19.587287472619927, 19.589491020125628, 19.591694567631325, 19.593898115137026, 19.596101662642727, 19.598305210148425, 19.600508757654126, 19.602712305159827, 19.604915852665524, 19.607119400171225, 19.609322947676922, 19.611526495182623, 19.613730042688324, 19.61593359019402, 19.618137137699723, 19.620340685205424, 19.62254423271112, 19.624747780216822, 19.626951327722523, 19.62915487522822, 19.63135842273392, 19.633561970239622, 19.63576551774532, 19.63796906525102, 19.64017261275672, 19.64237616026242, 19.64457970776812, 19.64678325527382, 19.64898680277952, 19.65119035028522, 19.653393897790917, 19.655597445296618, 19.65780099280232, 19.660004540308016, 19.662208087813717, 19.664411635319418, 19.666615182825115, 19.668818730330816, 19.671022277836517, 19.673225825342215, 19.675429372847915, 19.677632920353616, 19.679836467859314, 19.682040015365015, 19.684243562870716, 19.686447110376413, 19.688650657882114, 19.690854205387815, 19.693057752893512, 19.695261300399213, 19.69746484790491, 19.69966839541061, 19.701871942916313, 19.70407549042201, 19.70627903792771, 19.708482585433412, 19.71068613293911, 19.71288968044481, 19.71509322795051, 19.71729677545621, 19.71950032296191, 19.72170387046761, 19.723907417973308, 19.72611096547901, 19.72831451298471, 19.730518060490407, 19.73272160799611, 19.734925155501806, 19.737128703007507, 19.739332250513208, 19.741535798018905, 19.743739345524606, 19.745942893030307, 19.748146440536004, 19.750349988041705, 19.752553535547406, 19.754757083053104, 19.756960630558805, 19.759164178064506, 19.761367725570203, 19.763571273075904, 19.765774820581605, 19.767978368087302, 19.770181915593003, 19.772385463098704, 19.7745890106044, 19.776792558110103, 19.778996105615803, 19.7811996531215, 19.783403200627202, 19.7856067481329, 19.7878102956386, 19.7900138431443, 19.79221739065, 19.7944209381557, 19.7966244856614, 19.798828033167098, 19.8010315806728, 19.8032351281785, 19.805438675684197, 19.807642223189898, 19.8098457706956, 19.812049318201296, 19.814252865706997, 19.8164564132127, 19.818659960718396, 19.820863508224097, 19.823067055729794, 19.825270603235495, 19.827474150741196, 19.829677698246893, 19.831881245752594, 19.834084793258295, 19.836288340763993, 19.838491888269694, 19.840695435775395, 19.842898983281092, 19.845102530786793, 19.847306078292494, 19.84950962579819, 19.851713173303892, 19.853916720809593, 19.85612026831529, 19.85832381582099, 19.86052736332669, 19.86273091083239, 19.86493445833809, 19.86713800584379, 19.86934155334949, 19.87154510085519, 19.873748648360888, 19.87595219586659, 19.87815574337229, 19.880359290877987, 19.882562838383688, 19.88476638588939, 19.886969933395086, 19.889173480900787, 19.891377028406488, 19.893580575912186, 19.895784123417886, 19.897987670923587, 19.900191218429285, 19.902394765934986, 19.904598313440687, 19.906801860946384, 19.909005408452085, 19.911208955957783, 19.913412503463483, 19.915616050969184, 19.917819598474882, 19.920023145980583, 19.922226693486284, 19.92443024099198, 19.926633788497682, 19.928837336003383, 19.93104088350908, 19.93324443101478, 19.935447978520482, 19.93765152602618, 19.93985507353188, 19.94205862103758, 19.94426216854328, 19.94646571604898, 19.948669263554677, 19.95087281106038, 19.95307635856608, 19.955279906071777, 19.957483453577478, 19.95968700108318, 19.961890548588876, 19.964094096094577, 19.966297643600278, 19.968501191105975, 19.970704738611676, 19.972908286117377, 19.975111833623075, 19.977315381128776, 19.979518928634477, 19.981722476140174, 19.983926023645875, 19.986129571151576, 19.988333118657273, 19.990536666162974, 19.99274021366867, 19.994943761174373, 19.997147308680074, 19.99935085618577, 20.001554403691472, 20.003757951197173, 20.00596149870287, 20.00816504620857, 20.010368593714272, 20.01257214121997, 20.01477568872567, 20.01697923623137, 20.01918278373707, 20.02138633124277, 20.02358987874847, 20.025793426254168, 20.02799697375987, 20.03020052126557, 20.032404068771267, 20.03460761627697, 20.036811163782666, 20.039014711288367, 20.041218258794068, 20.043421806299765, 20.045625353805466, 20.047828901311167, 20.050032448816864, 20.052235996322565, 20.054439543828266, 20.056643091333964, 20.058846638839665, 20.061050186345366, 20.063253733851063, 20.065457281356764, 20.067660828862465, 20.069864376368162, 20.072067923873863, 20.07427147137956, 20.07647501888526, 20.078678566390963, 20.08088211389666, 20.08308566140236, 20.085289208908062, 20.08749275641376, 20.08969630391946, 20.09189985142516, 20.09410339893086, 20.09630694643656, 20.09851049394226, 20.100714041447958, 20.10291758895366, 20.10512113645936, 20.107324683965057, 20.109528231470758, 20.11173177897646, 20.113935326482157, 20.116138873987857, 20.118342421493555, 20.120545968999256, 20.122749516504957, 20.124953064010654, 20.127156611516355, 20.129360159022056, 20.131563706527754, 20.133767254033454, 20.135970801539155, 20.138174349044853, 20.140377896550554, 20.142581444056255, 20.144784991561952, 20.146988539067653, 20.149192086573354, 20.15139563407905, 20.153599181584752, 20.155802729090453, 20.15800627659615, 20.16020982410185, 20.16241337160755, 20.16461691911325, 20.16682046661895, 20.16902401412465, 20.17122756163035, 20.17343110913605, 20.175634656641748, 20.17783820414745, 20.18004175165315, 20.182245299158847, 20.184448846664548, 20.18665239417025, 20.188855941675946, 20.191059489181647, 20.19326303668735, 20.195466584193046, 20.197670131698747, 20.199873679204448, 20.202077226710145, 20.204280774215846, 20.206484321721543, 20.208687869227244, 20.210891416732945, 20.213094964238643, 20.215298511744344, 20.217502059250045, 20.219705606755742, 20.221909154261443, 20.224112701767144, 20.22631624927284, 20.228519796778542, 20.230723344284243, 20.23292689178994, 20.23513043929564, 20.237333986801342, 20.23953753430704, 20.24174108181274, 20.24394462931844, 20.24614817682414, 20.24835172432984, 20.250555271835537, 20.25275881934124, 20.25496236684694, 20.257165914352637, 20.259369461858338, 20.26157300936404, 20.263776556869736, 20.265980104375437, 20.268183651881138, 20.270387199386835, 20.272590746892536, 20.274794294398237, 20.276997841903935, 20.279201389409636, 20.281404936915337, 20.283608484421034, 20.285812031926735, 20.288015579432432, 20.290219126938133, 20.292422674443834, 20.29462622194953, 20.296829769455233, 20.299033316960934, 20.30123686446663, 20.303440411972332, 20.305643959478033, 20.30784750698373, 20.31005105448943, 20.312254601995132, 20.31445814950083, 20.31666169700653, 20.31886524451223, 20.32106879201793, 20.32327233952363, 20.325475887029327, 20.32767943453503, 20.32988298204073, 20.33208652954643, 20.334290077052128, 20.33649362455783, 20.338697172063526, 20.340900719569227, 20.343104267074928, 20.345307814580625, 20.347511362086326, 20.349714909592027, 20.351918457097725, 20.354122004603425, 20.356325552109126, 20.358529099614824, 20.360732647120525, 20.362936194626226, 20.365139742131923, 20.367343289637624, 20.369546837143325, 20.371750384649022, 20.373953932154723, 20.37615747966042, 20.37836102716612, 20.380564574671823, 20.38276812217752, 20.38497166968322, 20.387175217188922, 20.38937876469462, 20.39158231220032])
+              .range(['#27ae60ff', '#27ae60ff', '#28ae5fff', '#29ae5fff', '#2aae5fff', '#2bae5eff', '#2cae5eff', '#2cae5eff', '#2dae5dff', '#2eae5dff', '#2fad5dff', '#30ad5cff', '#31ad5cff', '#31ad5cff', '#32ad5bff', '#33ad5bff', '#34ad5bff', '#35ad5bff', '#35ad5aff', '#36ad5aff', '#37ad5aff', '#38ad59ff', '#39ad59ff', '#3aad59ff', '#3aac58ff', '#3bac58ff', '#3cac58ff', '#3dac57ff', '#3eac57ff', '#3eac57ff', '#3fac56ff', '#40ac56ff', '#41ac56ff', '#42ac56ff', '#43ac55ff', '#43ac55ff', '#44ac55ff', '#45ac54ff', '#46ab54ff', '#47ab54ff', '#47ab53ff', '#48ab53ff', '#49ab53ff', '#4aab52ff', '#4bab52ff', '#4cab52ff', '#4cab51ff', '#4dab51ff', '#4eab51ff', '#4fab50ff', '#50ab50ff', '#51aa50ff', '#51aa50ff', '#52aa4fff', '#53aa4fff', '#54aa4fff', '#55aa4eff', '#55aa4eff', '#56aa4eff', '#57aa4dff', '#58aa4dff', '#59aa4dff', '#5aaa4cff', '#5aaa4cff', '#5baa4cff', '#5ca94bff', '#5da94bff', '#5ea94bff', '#5ea94bff', '#5fa94aff', '#60a94aff', '#61a94aff', '#62a949ff', '#63a949ff', '#63a949ff', '#64a948ff', '#65a948ff', '#66a948ff', '#67a947ff', '#67a847ff', '#68a847ff', '#69a846ff', '#6aa846ff', '#6ba846ff', '#6ca846ff', '#6ca845ff', '#6da845ff', '#6ea845ff', '#6fa844ff', '#70a844ff', '#71a844ff', '#71a843ff', '#72a843ff', '#73a743ff', '#74a742ff', '#75a742ff', '#75a742ff', '#76a741ff', '#77a741ff', '#78a741ff', '#79a740ff', '#7aa740ff', '#7aa740ff', '#7ba740ff', '#7ca73fff', '#7da73fff', '#7ea73fff', '#7ea63eff', '#7fa63eff', '#80a63eff', '#81a63dff', '#82a63dff', '#83a63dff', '#83a63cff', '#84a63cff', '#85a63cff', '#86a63bff', '#87a63bff', '#88a63bff', '#88a63bff', '#89a53aff', '#8aa53aff', '#8ba53aff', '#8ca539ff', '#8ca539ff', '#8da539ff', '#8ea538ff', '#8fa538ff', '#90a538ff', '#91a537ff', '#91a537ff', '#92a537ff', '#93a536ff', '#94a536ff', '#95a436ff', '#95a436ff', '#96a435ff', '#97a435ff', '#98a435ff', '#99a434ff', '#9aa434ff', '#9aa434ff', '#9ba433ff', '#9ca433ff', '#9da433ff', '#9ea432ff', '#9ea432ff', '#9fa432ff', '#a0a331ff', '#a1a331ff', '#a2a331ff', '#a3a330ff', '#a3a330ff', '#a4a330ff', '#a5a330ff', '#a6a32fff', '#a7a32fff', '#a8a32fff', '#a8a32eff', '#a9a32eff', '#aaa32eff', '#aba32dff', '#aca22dff', '#aca22dff', '#ada22cff', '#aea22cff', '#afa22cff', '#b0a22bff', '#b1a22bff', '#b1a22bff', '#b2a22bff', '#b3a22aff', '#b4a22aff', '#b5a22aff', '#b5a229ff', '#b6a229ff', '#b7a129ff', '#b8a128ff', '#b9a128ff', '#baa128ff', '#baa127ff', '#bba127ff', '#bca127ff', '#bda126ff', '#bea126ff', '#bfa126ff', '#bfa126ff', '#c0a125ff', '#c1a125ff', '#c2a025ff', '#c3a024ff', '#c3a024ff', '#c4a024ff', '#c5a023ff', '#c6a023ff', '#c7a023ff', '#c8a022ff', '#c8a022ff', '#c9a022ff', '#caa021ff', '#cba021ff', '#cca021ff', '#cca020ff', '#cd9f20ff', '#ce9f20ff', '#cf9f20ff', '#d09f1fff', '#d19f1fff', '#d19f1fff', '#d29f1eff', '#d39f1eff', '#d49f1eff', '#d59f1dff', '#d59f1dff', '#d69f1dff', '#d79f1cff', '#d89f1cff', '#d99e1cff', '#da9e1bff', '#da9e1bff', '#db9e1bff', '#dc9e1bff', '#dd9e1aff', '#de9e1aff', '#df9e1aff', '#df9e19ff', '#e09e19ff', '#e19e19ff', '#e29e18ff', '#e39e18ff', '#e39e18ff', '#e49d17ff', '#e59d17ff', '#e69d17ff', '#e79d16ff', '#e89d16ff', '#e89d16ff', '#e99d15ff', '#ea9d15ff', '#eb9d15ff', '#ec9d15ff', '#ec9d14ff', '#ed9d14ff', '#ee9d14ff', '#ef9d13ff', '#f09c13ff', '#f19c13ff', '#f19c12ff', '#f29c12ff', '#f39c12ff', '#f39c12ff', '#f39c12ff', '#f39b12ff', '#f39b12ff', '#f39b12ff', '#f39a13ff', '#f39a13ff', '#f39a13ff', '#f39913ff', '#f39913ff', '#f39913ff', '#f39814ff', '#f39814ff', '#f39814ff', '#f39714ff', '#f39714ff', '#f39714ff', '#f39615ff', '#f39615ff', '#f39615ff', '#f29615ff', '#f29515ff', '#f29515ff', '#f29516ff', '#f29416ff', '#f29416ff', '#f29416ff', '#f29316ff', '#f29316ff', '#f29317ff', '#f29217ff', '#f29217ff', '#f29217ff', '#f29117ff', '#f29117ff', '#f29118ff', '#f29018ff', '#f29018ff', '#f29018ff', '#f28f18ff', '#f18f18ff', '#f18f19ff', '#f18e19ff', '#f18e19ff', '#f18e19ff', '#f18d19ff', '#f18d19ff', '#f18d1aff', '#f18c1aff', '#f18c1aff', '#f18c1aff', '#f18c1aff', '#f18b1aff', '#f18b1bff', '#f18b1bff', '#f18a1bff', '#f18a1bff', '#f18a1bff', '#f1891bff', '#f1891cff', '#f1891cff', '#f0881cff', '#f0881cff', '#f0881cff', '#f0871cff', '#f0871dff', '#f0871dff', '#f0861dff', '#f0861dff', '#f0861dff', '#f0851dff', '#f0851eff', '#f0851eff', '#f0841eff', '#f0841eff', '#f0841eff', '#f0831eff', '#f0831fff', '#f0831fff', '#f0831fff', '#f0821fff', '#f0821fff', '#ef8220ff', '#ef8120ff', '#ef8120ff', '#ef8120ff', '#ef8020ff', '#ef8020ff', '#ef8021ff', '#ef7f21ff', '#ef7f21ff', '#ef7f21ff', '#ef7e21ff', '#ef7e21ff', '#ef7e22ff', '#ef7d22ff', '#ef7d22ff', '#ef7d22ff', '#ef7c22ff', '#ef7c22ff', '#ef7c23ff', '#ef7b23ff', '#ef7b23ff', '#ee7b23ff', '#ee7a23ff', '#ee7a23ff', '#ee7a24ff', '#ee7a24ff', '#ee7924ff', '#ee7924ff', '#ee7924ff', '#ee7824ff', '#ee7825ff', '#ee7825ff', '#ee7725ff', '#ee7725ff', '#ee7725ff', '#ee7625ff', '#ee7626ff', '#ee7626ff', '#ee7526ff', '#ee7526ff', '#ee7526ff', '#ed7426ff', '#ed7427ff', '#ed7427ff', '#ed7327ff', '#ed7327ff', '#ed7327ff', '#ed7227ff', '#ed7228ff', '#ed7228ff', '#ed7128ff', '#ed7128ff', '#ed7128ff', '#ed7028ff', '#ed7029ff', '#ed7029ff', '#ed7029ff', '#ed6f29ff', '#ed6f29ff', '#ed6f29ff', '#ed6e2aff', '#ed6e2aff', '#ec6e2aff', '#ec6d2aff', '#ec6d2aff', '#ec6d2aff', '#ec6c2bff', '#ec6c2bff', '#ec6c2bff', '#ec6b2bff', '#ec6b2bff', '#ec6b2cff', '#ec6a2cff', '#ec6a2cff', '#ec6a2cff', '#ec692cff', '#ec692cff', '#ec692dff', '#ec682dff', '#ec682dff', '#ec682dff', '#ec672dff', '#ec672dff', '#eb672eff', '#eb672eff', '#eb662eff', '#eb662eff', '#eb662eff', '#eb652eff', '#eb652fff', '#eb652fff', '#eb642fff', '#eb642fff', '#eb642fff', '#eb632fff', '#eb6330ff', '#eb6330ff', '#eb6230ff', '#eb6230ff', '#eb6230ff', '#eb6130ff', '#eb6131ff', '#eb6131ff', '#ea6031ff', '#ea6031ff', '#ea6031ff', '#ea5f31ff', '#ea5f32ff', '#ea5f32ff', '#ea5e32ff', '#ea5e32ff', '#ea5e32ff', '#ea5e32ff', '#ea5d33ff', '#ea5d33ff', '#ea5d33ff', '#ea5c33ff', '#ea5c33ff', '#ea5c33ff', '#ea5b34ff', '#ea5b34ff', '#ea5b34ff', '#ea5a34ff', '#ea5a34ff', '#e95a34ff', '#e95935ff', '#e95935ff', '#e95935ff', '#e95835ff', '#e95835ff', '#e95835ff', '#e95736ff', '#e95736ff', '#e95736ff', '#e95636ff', '#e95636ff', '#e95636ff', '#e95537ff', '#e95537ff', '#e95537ff', '#e95437ff', '#e95437ff', '#e95438ff', '#e95438ff', '#e95338ff', '#e85338ff', '#e85338ff', '#e85238ff', '#e85239ff', '#e85239ff', '#e85139ff', '#e85139ff', '#e85139ff', '#e85039ff', '#e8503aff', '#e8503aff', '#e84f3aff', '#e84f3aff', '#e84f3aff', '#e84e3aff', '#e84e3bff', '#e84e3bff', '#e84d3bff', '#e84d3bff', '#e84d3bff', '#e84c3bff', '#e74c3cff', '#e74c3cff']);
+    
+
+    color_map_d0c586635b449e83947addf569bd05a1.x = d3.scale.linear()
+              .domain([19.292012106856166, 20.39158231220032])
+              .range([0, 450 - 50]);
+
+    color_map_d0c586635b449e83947addf569bd05a1.legend = L.control({position: 'topright'});
+    color_map_d0c586635b449e83947addf569bd05a1.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
+    color_map_d0c586635b449e83947addf569bd05a1.legend.addTo(map_0fe7a62d468a103467c211631cba510d);
+
+    color_map_d0c586635b449e83947addf569bd05a1.xAxis = d3.svg.axis()
+        .scale(color_map_d0c586635b449e83947addf569bd05a1.x)
+        .orient("top")
+        .tickSize(1)
+        .tickValues([19.292012106856166, 19.841797209528245, 20.39158231220032]);
+
+    color_map_d0c586635b449e83947addf569bd05a1.svg = d3.select(".legend.leaflet-control").append("svg")
+        .attr("id", 'legend')
+        .attr("width", 450)
+        .attr("height", 40);
+
+    color_map_d0c586635b449e83947addf569bd05a1.g = color_map_d0c586635b449e83947addf569bd05a1.svg.append("g")
+        .attr("class", "key")
+        .attr("fill", "black")
+        .attr("transform", "translate(25,16)");
+
+    color_map_d0c586635b449e83947addf569bd05a1.g.selectAll("rect")
+        .data(color_map_d0c586635b449e83947addf569bd05a1.color.range().map(function(d, i) {
+          return {
+            x0: i ? color_map_d0c586635b449e83947addf569bd05a1.x(color_map_d0c586635b449e83947addf569bd05a1.color.domain()[i - 1]) : color_map_d0c586635b449e83947addf569bd05a1.x.range()[0],
+            x1: i < color_map_d0c586635b449e83947addf569bd05a1.color.domain().length ? color_map_d0c586635b449e83947addf569bd05a1.x(color_map_d0c586635b449e83947addf569bd05a1.color.domain()[i]) : color_map_d0c586635b449e83947addf569bd05a1.x.range()[1],
+            z: d
+          };
+        }))
+      .enter().append("rect")
+        .attr("height", 40 - 30)
+        .attr("x", function(d) { return d.x0; })
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .style("fill", function(d) { return d.z; });
+
+    color_map_d0c586635b449e83947addf569bd05a1.g.call(color_map_d0c586635b449e83947addf569bd05a1.xAxis).append("text")
+        .attr("class", "caption")
+        .attr("y", 21)
+        .attr("fill", "black")
+        .text("Taux de mortalit\u00e9 (%)");
+    
+            var circle_marker_c2fc9f32751985fb758480e0b2cb5ef9 = L.circleMarker(
+                [8.72, 1.08],
+                {"bubblingMouseEvents": true, "color": "#ec6a2cff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ec6a2cff", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 73.43, "stroke": true, "weight": 2}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+        var popup_e2269f561aba878b9c07fcafbbb7ce5f = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_fb9d1ea0ca3d2bca059f88d24662bd24 = $(`<div id="html_fb9d1ea0ca3d2bca059f88d24662bd24" style="width: 100.0%; height: 100.0%;"><b>Région Centrale</b><br>Accidents : 7,343<br>Décès : 3,183<br>Taux mortalité : 20.2%</div>`)[0];
+                popup_e2269f561aba878b9c07fcafbbb7ce5f.setContent(html_fb9d1ea0ca3d2bca059f88d24662bd24);
+            
+        
+
+        circle_marker_c2fc9f32751985fb758480e0b2cb5ef9.bindPopup(popup_e2269f561aba878b9c07fcafbbb7ce5f)
+        ;
+
+        
+    
+    
+            circle_marker_c2fc9f32751985fb758480e0b2cb5ef9.bindTooltip(
+                `<div>
+                     Centrale : 7,343 acc.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_d08cc8c97ce6f1747cf790809845b4e9 = L.marker(
+                [8.72, 1.08],
+                {
+}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+            var div_icon_e0232a6b000338b714cffdc03164e0aa = L.divIcon({
+  "html": "\u003cdiv style=\u0027font-size:11px;font-weight:bold;color:white;text-shadow:1px 1px 2px black;\u0027\u003eCentrale\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_d08cc8c97ce6f1747cf790809845b4e9.setIcon(div_icon_e0232a6b000338b714cffdc03164e0aa);
+            
+    
+            var circle_marker_7434e6eed872d2e8592b46279844f64b = L.circleMarker(
+                [9.551, 1.1876],
+                {"bubblingMouseEvents": true, "color": "#e74c3cff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3cff", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 75.08, "stroke": true, "weight": 2}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+        var popup_63e0ec523d1b8a13602f506563ebd471 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_a70cc07777c190226b213be5446327cc = $(`<div id="html_a70cc07777c190226b213be5446327cc" style="width: 100.0%; height: 100.0%;"><b>Région Kara</b><br>Accidents : 7,508<br>Décès : 3,223<br>Taux mortalité : 20.4%</div>`)[0];
+                popup_63e0ec523d1b8a13602f506563ebd471.setContent(html_a70cc07777c190226b213be5446327cc);
+            
+        
+
+        circle_marker_7434e6eed872d2e8592b46279844f64b.bindPopup(popup_63e0ec523d1b8a13602f506563ebd471)
+        ;
+
+        
+    
+    
+            circle_marker_7434e6eed872d2e8592b46279844f64b.bindTooltip(
+                `<div>
+                     Kara : 7,508 acc.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9f0915435d185ec453834915413eb3c9 = L.marker(
+                [9.551, 1.1876],
+                {
+}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+            var div_icon_954e07a58996c67b90f78969b8e10451 = L.divIcon({
+  "html": "\u003cdiv style=\u0027font-size:11px;font-weight:bold;color:white;text-shadow:1px 1px 2px black;\u0027\u003eKara\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_9f0915435d185ec453834915413eb3c9.setIcon(div_icon_954e07a58996c67b90f78969b8e10451);
+            
+    
+            var circle_marker_a43a90cd716bf682f09a5ba04e3ccd20 = L.circleMarker(
+                [6.3702, 1.2254],
+                {"bubblingMouseEvents": true, "color": "#e69d17ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e69d17ff", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 80, "stroke": true, "weight": 2}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+        var popup_56ec139248b7b26b4eac1bab634d5b4e = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_832296795bf1e76f28dfe4ac117914fd = $(`<div id="html_832296795bf1e76f28dfe4ac117914fd" style="width: 100.0%; height: 100.0%;"><b>Région Maritime</b><br>Accidents : 17,510<br>Décès : 7,405<br>Taux mortalité : 19.8%</div>`)[0];
+                popup_56ec139248b7b26b4eac1bab634d5b4e.setContent(html_832296795bf1e76f28dfe4ac117914fd);
+            
+        
+
+        circle_marker_a43a90cd716bf682f09a5ba04e3ccd20.bindPopup(popup_56ec139248b7b26b4eac1bab634d5b4e)
+        ;
+
+        
+    
+    
+            circle_marker_a43a90cd716bf682f09a5ba04e3ccd20.bindTooltip(
+                `<div>
+                     Maritime : 17,510 acc.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_dafe1bbb333d875e38a7b6c44b9c8c4b = L.marker(
+                [6.3702, 1.2254],
+                {
+}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+            var div_icon_e488a16893a981c4f9cb357313531429 = L.divIcon({
+  "html": "\u003cdiv style=\u0027font-size:11px;font-weight:bold;color:white;text-shadow:1px 1px 2px black;\u0027\u003eMaritime\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_dafe1bbb333d875e38a7b6c44b9c8c4b.setIcon(div_icon_e488a16893a981c4f9cb357313531429);
+            
+    
+            var circle_marker_c0303d2714963f3aeaf18009b3e85e05 = L.circleMarker(
+                [7.3236, 1.1374],
+                {"bubblingMouseEvents": true, "color": "#caa022ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#caa022ff", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 80, "stroke": true, "weight": 2}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+        var popup_a6fa0ed4277986968ddd3327919263a8 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_203594eafa8a9c088567078ac3da409f = $(`<div id="html_203594eafa8a9c088567078ac3da409f" style="width: 100.0%; height: 100.0%;"><b>Région Plateaux</b><br>Accidents : 9,823<br>Décès : 4,176<br>Taux mortalité : 19.7%</div>`)[0];
+                popup_a6fa0ed4277986968ddd3327919263a8.setContent(html_203594eafa8a9c088567078ac3da409f);
+            
+        
+
+        circle_marker_c0303d2714963f3aeaf18009b3e85e05.bindPopup(popup_a6fa0ed4277986968ddd3327919263a8)
+        ;
+
+        
+    
+    
+            circle_marker_c0303d2714963f3aeaf18009b3e85e05.bindTooltip(
+                `<div>
+                     Plateaux : 9,823 acc.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_29aa5de206abb457b1d6fca20a41ddd7 = L.marker(
+                [7.3236, 1.1374],
+                {
+}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+            var div_icon_dc96ef63779d11517e0bed8410f15f33 = L.divIcon({
+  "html": "\u003cdiv style=\u0027font-size:11px;font-weight:bold;color:white;text-shadow:1px 1px 2px black;\u0027\u003ePlateaux\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_29aa5de206abb457b1d6fca20a41ddd7.setIcon(div_icon_dc96ef63779d11517e0bed8410f15f33);
+            
+    
+            var circle_marker_3d1008aef0a681fb72e46ac315979dc9 = L.circleMarker(
+                [10.6845, 0.4894],
+                {"bubblingMouseEvents": true, "color": "#27ae60ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#27ae60ff", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 75.99, "stroke": true, "weight": 2}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+        var popup_bc6dccb16ef474be9e6deae49c33c2fb = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_66407b11d1527c9c306683c106901cc8 = $(`<div id="html_66407b11d1527c9c306683c106901cc8" style="width: 100.0%; height: 100.0%;"><b>Région Savanes</b><br>Accidents : 7,599<br>Décès : 3,125<br>Taux mortalité : 19.3%</div>`)[0];
+                popup_bc6dccb16ef474be9e6deae49c33c2fb.setContent(html_66407b11d1527c9c306683c106901cc8);
+            
+        
+
+        circle_marker_3d1008aef0a681fb72e46ac315979dc9.bindPopup(popup_bc6dccb16ef474be9e6deae49c33c2fb)
+        ;
+
+        
+    
+    
+            circle_marker_3d1008aef0a681fb72e46ac315979dc9.bindTooltip(
+                `<div>
+                     Savanes : 7,599 acc.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_787a7b94c7e781589881d0ecd6a70e42 = L.marker(
+                [10.6845, 0.4894],
+                {
+}
+            ).addTo(map_0fe7a62d468a103467c211631cba510d);
+        
+    
+            var div_icon_e99ceca620e4413f596b1238b2fd4506 = L.divIcon({
+  "html": "\u003cdiv style=\u0027font-size:11px;font-weight:bold;color:white;text-shadow:1px 1px 2px black;\u0027\u003eSavanes\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_787a7b94c7e781589881d0ecd6a70e42.setIcon(div_icon_e99ceca620e4413f596b1238b2fd4506);
+            
+</script>
+</html>
