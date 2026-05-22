@@ -88,8 +88,8 @@ togo-road-accidents-capstone/
 
 ### 1. Cloner le dépôt
 ```bash
-git clone https://github.com/votre-user/togo-road-accidents-capstone.git
-cd togo-road-accidents-capstone
+git clone https://github.com/Pemalekidev/togo-road-accidents-project.git
+cd togo-road-accidents-project
 ```
 
 ### 2. Environnement virtuel
@@ -132,6 +132,7 @@ Raw Data → Cleaning → Feature Engineering → Train/Test Split
 - Dashboard opérationnel avec filtres dynamiques
 
 ##  Auteur
+# Petema Maleki
 
 Projet Capstone — Data Science  
 **Togo Road Safety Analytics** | 2025
