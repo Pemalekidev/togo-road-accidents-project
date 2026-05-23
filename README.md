@@ -1,4 +1,4 @@
-#  Togo Road Accidents — Capstone Project
+#  Togo Road Accidents Project
 
 > **Analyse complète des accidents de la route au Togo (2022–2025)**  
 > Pipeline Data Science de bout en bout : collecte → nettoyage → EDA → SQL → Cartographie → Dashboard → Modélisation prédictive
