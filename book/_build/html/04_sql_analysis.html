@@ -1,0 +1,1622 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>04 — Analyse SQL avec DuckDB &#8212; Togo Road Accidents Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '04_sql_analysis';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="05 — Cartographie Interactive avec Folium" href="05_folium_map.html" />
+    <link rel="prev" title="03 — Analyse Exploratoire des Données (EDA)" href="03_eda_visualization.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Togo Road Accidents Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Togo Road Accidents Analysis (2022–2024)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_data_collection.html">01 — Collecte &amp; Exploration Initiale des Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_data_cleaning.html">02 — Nettoyage &amp; Prétraitement des Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_eda_visualization.html">03 — Analyse Exploratoire des Données (EDA)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">04 — Analyse SQL avec DuckDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_folium_map.html">05 — Cartographie Interactive avec Folium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_dash_dashboard.html">06 — Dashboard Interactif Dash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_predictive_modeling.html">07 — Modélisation Prédictive</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/04_sql_analysis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>04 — Analyse SQL avec DuckDB</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kpis-globaux">1. KPIs Globaux</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-par-gravite">2. Distribution par Gravité</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-temporelle">3. Analyse Temporelle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#top-zones-dangereuses">4. Top Zones Dangereuses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-des-causes-et-de-la-vitesse">5. Analyse des Causes et de la Vitesse</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-economique">6. Analyse Économique</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#export-du-rapport-complet">7. Export du rapport complet</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analyse-sql-avec-duckdb">
+<h1>04 — Analyse SQL avec DuckDB<a class="headerlink" href="#analyse-sql-avec-duckdb" title="Permalink to this heading">#</a></h1>
+<p><strong>Objectif :</strong> Analyses métier avancées via SQL (DuckDB en mémoire sur DataFrame Pandas).<br />
+<strong>Requêtes :</strong> KPIs, tendances, top zones, causes, analyses économiques, window functions.</p>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;../src&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sql_queries</span><span class="w"> </span><span class="kn">import</span> <span class="n">AccidentsDB</span><span class="p">,</span> <span class="n">AccidentsQueries</span><span class="p">,</span> <span class="n">export_sql_report</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataframe</span><span class="p">,</span> <span class="n">GRAVITE_COLORS</span><span class="p">,</span> <span class="n">PALETTE</span>
+
+<span class="n">TABLES_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../reports/tables&#39;</span><span class="p">)</span>
+<span class="n">FIGURES_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../reports/figures&#39;</span><span class="p">)</span>
+<span class="n">TABLES_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">load_dataframe</span><span class="p">(</span><span class="s1">&#39;../data/processed/accidents_clean.parquet&#39;</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">AccidentsDB</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">q</span>  <span class="o">=</span> <span class="n">AccidentsQueries</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;DuckDB prêt &#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:28:11 | INFO     | utils | DataFrame chargé ← ..\data\processed\accidents_clean.parquet (49,783 lignes)
+2026-05-21 19:28:11 | INFO     | sql_queries | DuckDB initialisé avec 49,783 accidents.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DuckDB prêt ✓
+</pre></div>
+</div>
+</div>
+</div>
+<section id="kpis-globaux">
+<h2>1. KPIs Globaux<a class="headerlink" href="#kpis-globaux" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kpis</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">kpi_globaux</span><span class="p">()</span>
+<span class="n">kpis</span> <span class="o">=</span> <span class="n">kpis</span><span class="o">.</span><span class="n">T</span>
+<span class="n">kpis</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Valeur&#39;</span><span class="p">]</span>
+<span class="n">kpis</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Indicateur&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;═&#39;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KPIs GLOBAUX — Togo Road Accidents 2022-2025&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;═&#39;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">kpis</span><span class="p">)</span>
+
+<span class="n">kpis</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">TABLES_DIR</span> <span class="o">/</span> <span class="s1">&#39;04_kpis_globaux.csv&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>══════════════════════════════════════════════════
+KPIs GLOBAUX — Togo Road Accidents 2022-2025
+══════════════════════════════════════════════════
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Valeur</th>
+    </tr>
+    <tr>
+      <th>Indicateur</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>total_accidents</th>
+      <td>49783</td>
+    </tr>
+    <tr>
+      <th>total_deces</th>
+      <td>21112.0</td>
+    </tr>
+    <tr>
+      <th>total_victimes</th>
+      <td>109036.0</td>
+    </tr>
+    <tr>
+      <th>moy_victimes_par_accident</th>
+      <td>2.19</td>
+    </tr>
+    <tr>
+      <th>taux_mortalite_pct</th>
+      <td>42.41</td>
+    </tr>
+    <tr>
+      <th>cout_moyen_MFCFA</th>
+      <td>2.147</td>
+    </tr>
+    <tr>
+      <th>cout_total_GFCFA</th>
+      <td>106.861503</td>
+    </tr>
+    <tr>
+      <th>date_debut</th>
+      <td>2022-01-01 00:00:00</td>
+    </tr>
+    <tr>
+      <th>date_fin</th>
+      <td>2025-12-31 00:00:00</td>
+    </tr>
+    <tr>
+      <th>nb_regions</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>nb_villes</th>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>nb_axes_routiers</th>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="distribution-par-gravite">
+<h2>2. Distribution par Gravité<a class="headerlink" href="#distribution-par-gravite" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grav_df</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">repartition_par_gravite</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grav_df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">grav_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">TABLES_DIR</span> <span class="o">/</span> <span class="s1">&#39;04_gravite.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gravite  nb_accidents   pct  total_victimes  total_deces  cout_moyen_FCFA
+ Mortel          9885 19.86         34640.0      19149.0        5223912.0
+  Grave         13260 26.64         33790.0       1963.0        2252077.0
+  Léger         26638 53.51         40606.0          0.0         952046.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="analyse-temporelle">
+<h2>3. Analyse Temporelle<a class="headerlink" href="#analyse-temporelle" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tendance annuelle</span>
+<span class="n">annual</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">tendance_annuelle</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Évolution annuelle :&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">annual</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">annual</span><span class="p">[</span><span class="s1">&#39;annee&#39;</span><span class="p">],</span> <span class="n">annual</span><span class="p">[</span><span class="s1">&#39;nb_accidents&#39;</span><span class="p">],</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETTE</span><span class="p">[</span><span class="s1">&#39;secondary&#39;</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Nombre d</span><span class="se">\&#39;</span><span class="s1">accidents / an&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Année&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">annual</span><span class="p">[</span><span class="s1">&#39;annee&#39;</span><span class="p">],</span> <span class="n">annual</span><span class="p">[</span><span class="s1">&#39;nb_accidents&#39;</span><span class="p">]):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">annual</span><span class="p">[</span><span class="s1">&#39;annee&#39;</span><span class="p">],</span> <span class="n">annual</span><span class="p">[</span><span class="s1">&#39;taux_mortalite&#39;</span><span class="p">],</span> <span class="s1">&#39;s-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETTE</span><span class="p">[</span><span class="s1">&#39;danger&#39;</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Taux de mortalité (%)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Année&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">annual</span><span class="p">[</span><span class="s1">&#39;annee&#39;</span><span class="p">],</span> <span class="n">annual</span><span class="p">[</span><span class="s1">&#39;cout_total_MFCFA&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETTE</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Coût total (MFCFA)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Année&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Tendances Annuelles&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">FIGURES_DIR</span> <span class="o">/</span> <span class="s1">&#39;04_tendances_annuelles.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Évolution annuelle :
+ annee  nb_accidents  deces  taux_mortalite  vitesse_moyenne  cout_total_MFCFA
+  2022         12326 5301.0           43.01             64.4           26564.5
+  2023         12544 5244.0           41.80             63.7           26743.8
+  2024         12476 5254.0           42.11             64.6           26769.3
+  2025         12437 5313.0           42.72             64.5           26783.9
+</pre></div>
+</div>
+<img alt="_images/26964723302c9f050ebbbd4f25923e20c56cb3f671641a3ecf5c0d0ab7fc4c42.png" src="_images/26964723302c9f050ebbbd4f25923e20c56cb3f671641a3ecf5c0d0ab7fc4c42.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distribution par heure</span>
+<span class="n">hourly</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">accidents_par_heure</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">hourly</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">],</span> <span class="n">hourly</span><span class="p">[</span><span class="s1">&#39;nb_accidents&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETTE</span><span class="p">[</span><span class="s1">&#39;secondary&#39;</span><span class="p">])</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hourly</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">],</span> <span class="n">hourly</span><span class="p">[</span><span class="s1">&#39;nb_accidents&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETTE</span><span class="p">[</span><span class="s1">&#39;secondary&#39;</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Heure&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Nombre d</span><span class="se">\&#39;</span><span class="s1">accidents&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETTE</span><span class="p">[</span><span class="s1">&#39;secondary&#39;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hourly</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">],</span> <span class="n">hourly</span><span class="p">[</span><span class="s1">&#39;taux_mortalite&#39;</span><span class="p">],</span> <span class="s1">&#39;ro-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Taux mortalité (%)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="c1"># Zones de risque</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mf">22.5</span><span class="p">,</span> <span class="mf">23.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Nuit profonde&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Profil Horaire : Volume &amp; Taux de Mortalité&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">FIGURES_DIR</span> <span class="o">/</span> <span class="s1">&#39;04_profil_horaire_sql.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/992649ecd841f562a1ccf91998f28c849972aee228bb791de2757134b33d6bbb.png" src="_images/992649ecd841f562a1ccf91998f28c849972aee228bb791de2757134b33d6bbb.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cumul glissant des décès</span>
+<span class="n">running</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">running_total_deces_par_annee</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+    <span class="n">running</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;mois&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;deces_cumul&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;annee&#39;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Cumul des Décès par Mois (par année)&#39;</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;mois&#39;</span><span class="p">:</span> <span class="s1">&#39;Mois&#39;</span><span class="p">,</span> <span class="s1">&#39;deces_cumul&#39;</span><span class="p">:</span> <span class="s1">&#39;Décès cumulés&#39;</span><span class="p">,</span> <span class="s1">&#39;annee&#39;</span><span class="p">:</span> <span class="s1">&#39;Année&#39;</span><span class="p">},</span>
+    <span class="n">markers</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="top-zones-dangereuses">
+<h2>4. Top Zones Dangereuses<a class="headerlink" href="#top-zones-dangereuses" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_regions</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">top_regions_risque</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;TOP 5 RÉGIONS À RISQUE :&#39;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">top_regions</span><span class="p">)</span>
+
+<span class="n">top_axes</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">top_axes_dangereux</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">TOP 10 AXES ROUTIERS DANGEREUX :&#39;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">top_axes</span><span class="p">)</span>
+
+<span class="c1"># Visualisation</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Régions</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">top_regions</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">],</span> <span class="n">top_regions</span><span class="p">[</span><span class="s1">&#39;taux_mortalite&#39;</span><span class="p">],</span>
+             <span class="n">color</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">YlOrRd</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">top_regions</span><span class="p">))))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Taux de mortalité par région (%)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Taux de mortalité (%)&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">top_regions</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;taux_mortalite&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;taux_mortalite&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="c1"># Axes routiers</span>
+<span class="n">top10_axes</span> <span class="o">=</span> <span class="n">top_axes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">top10_axes</span><span class="p">[</span><span class="s1">&#39;axe_routier&#39;</span><span class="p">],</span> <span class="n">top10_axes</span><span class="p">[</span><span class="s1">&#39;deces&#39;</span><span class="p">],</span>
+             <span class="n">color</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Reds</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">top10_axes</span><span class="p">))))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Top 10 axes routiers (par décès)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Nombre de décès&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">FIGURES_DIR</span> <span class="o">/</span> <span class="s1">&#39;04_top_zones.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">top_regions</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">TABLES_DIR</span> <span class="o">/</span> <span class="s1">&#39;04_top_regions.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span>
+<span class="n">top_axes</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">TABLES_DIR</span> <span class="o">/</span> <span class="s1">&#39;04_top_axes.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TOP 5 RÉGIONS À RISQUE :
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>region</th>
+      <th>nb_accidents</th>
+      <th>deces</th>
+      <th>victimes</th>
+      <th>taux_mortalite</th>
+      <th>vitesse_moy</th>
+      <th>cout_total_MFCFA</th>
+      <th>pct_accidents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Centrale</td>
+      <td>7343</td>
+      <td>3183.0</td>
+      <td>16034.0</td>
+      <td>43.35</td>
+      <td>64.6</td>
+      <td>16016.1</td>
+      <td>14.75</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Kara</td>
+      <td>7508</td>
+      <td>3223.0</td>
+      <td>16508.0</td>
+      <td>42.93</td>
+      <td>65.0</td>
+      <td>16429.6</td>
+      <td>15.08</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Plateaux</td>
+      <td>9823</td>
+      <td>4176.0</td>
+      <td>21537.0</td>
+      <td>42.51</td>
+      <td>64.0</td>
+      <td>20806.2</td>
+      <td>19.73</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Maritime</td>
+      <td>17510</td>
+      <td>7405.0</td>
+      <td>38346.0</td>
+      <td>42.29</td>
+      <td>64.2</td>
+      <td>37714.2</td>
+      <td>35.17</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Savanes</td>
+      <td>7599</td>
+      <td>3125.0</td>
+      <td>16611.0</td>
+      <td>41.12</td>
+      <td>63.8</td>
+      <td>15895.4</td>
+      <td>15.26</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TOP 10 AXES ROUTIERS DANGEREUX :
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>axe_routier</th>
+      <th>nb_accidents</th>
+      <th>deces</th>
+      <th>taux_mortalite</th>
+      <th>vitesse_moy</th>
+      <th>nb_villes_touchees</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Lomé-Kara</td>
+      <td>8357</td>
+      <td>3617.0</td>
+      <td>43.28</td>
+      <td>64.5</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Atakpamé-Sokodé</td>
+      <td>8443</td>
+      <td>3611.0</td>
+      <td>42.77</td>
+      <td>64.3</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Lomé-Cotonou</td>
+      <td>8362</td>
+      <td>3560.0</td>
+      <td>42.57</td>
+      <td>64.0</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Kara-Dapaong</td>
+      <td>8226</td>
+      <td>3511.0</td>
+      <td>42.68</td>
+      <td>64.5</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Lomé-Kpalimé</td>
+      <td>8257</td>
+      <td>3416.0</td>
+      <td>41.37</td>
+      <td>64.1</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Sokodé-Kara</td>
+      <td>8138</td>
+      <td>3397.0</td>
+      <td>41.74</td>
+      <td>64.3</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/1ad97349adf40ceec415da8a350aefe86071b4e1afff60c4eaaa57d08352f743.png" src="_images/1ad97349adf40ceec415da8a350aefe86071b4e1afff60c4eaaa57d08352f743.png" />
+</div>
+</div>
+</section>
+<section id="analyse-des-causes-et-de-la-vitesse">
+<h2>5. Analyse des Causes et de la Vitesse<a class="headerlink" href="#analyse-des-causes-et-de-la-vitesse" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vitesse_stats</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">analyse_vitesse</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Statistiques de vitesse par gravité et type de route :&#39;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">vitesse_stats</span><span class="p">)</span>
+
+<span class="c1"># Corrélation excès vitesse × gravité</span>
+<span class="n">exces_grav</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">correlation_vitesse_gravite</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Excès de vitesse par niveau de gravité :&#39;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">exces_grav</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Statistiques de vitesse par gravité et type de route :
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravite</th>
+      <th>type_route</th>
+      <th>vitesse_moy</th>
+      <th>vitesse_mediane</th>
+      <th>vitesse_std</th>
+      <th>exces_moy</th>
+      <th>limitation_moy</th>
+      <th>nb_accidents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Grave</td>
+      <td>Autoroute</td>
+      <td>100.7</td>
+      <td>98.0</td>
+      <td>17.3</td>
+      <td>-9.3</td>
+      <td>110.0</td>
+      <td>1319</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Grave</td>
+      <td>Interurbaine</td>
+      <td>65.8</td>
+      <td>64.0</td>
+      <td>16.7</td>
+      <td>-4.2</td>
+      <td>70.0</td>
+      <td>1947</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Grave</td>
+      <td>Nationale</td>
+      <td>84.3</td>
+      <td>84.0</td>
+      <td>16.2</td>
+      <td>-5.7</td>
+      <td>90.0</td>
+      <td>3831</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Grave</td>
+      <td>Rurale</td>
+      <td>47.5</td>
+      <td>46.0</td>
+      <td>21.4</td>
+      <td>-2.5</td>
+      <td>50.0</td>
+      <td>2462</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Grave</td>
+      <td>Urbaine</td>
+      <td>47.5</td>
+      <td>46.0</td>
+      <td>20.8</td>
+      <td>-2.5</td>
+      <td>50.0</td>
+      <td>3701</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Léger</td>
+      <td>Autoroute</td>
+      <td>85.7</td>
+      <td>86.0</td>
+      <td>11.8</td>
+      <td>-24.3</td>
+      <td>110.0</td>
+      <td>455</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Léger</td>
+      <td>Interurbaine</td>
+      <td>64.1</td>
+      <td>64.0</td>
+      <td>18.8</td>
+      <td>-5.9</td>
+      <td>70.0</td>
+      <td>4756</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Léger</td>
+      <td>Nationale</td>
+      <td>76.6</td>
+      <td>75.0</td>
+      <td>16.7</td>
+      <td>-13.4</td>
+      <td>90.0</td>
+      <td>4658</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Léger</td>
+      <td>Rurale</td>
+      <td>47.3</td>
+      <td>46.0</td>
+      <td>19.4</td>
+      <td>-2.7</td>
+      <td>50.0</td>
+      <td>6700</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Léger</td>
+      <td>Urbaine</td>
+      <td>47.0</td>
+      <td>46.0</td>
+      <td>18.0</td>
+      <td>-3.0</td>
+      <td>50.0</td>
+      <td>10069</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Mortel</td>
+      <td>Autoroute</td>
+      <td>104.9</td>
+      <td>104.0</td>
+      <td>15.0</td>
+      <td>-5.1</td>
+      <td>110.0</td>
+      <td>3084</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Mortel</td>
+      <td>Interurbaine</td>
+      <td>70.2</td>
+      <td>69.0</td>
+      <td>18.4</td>
+      <td>0.2</td>
+      <td>70.0</td>
+      <td>860</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Mortel</td>
+      <td>Nationale</td>
+      <td>91.0</td>
+      <td>89.0</td>
+      <td>15.4</td>
+      <td>1.0</td>
+      <td>90.0</td>
+      <td>3857</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Mortel</td>
+      <td>Rurale</td>
+      <td>46.2</td>
+      <td>45.0</td>
+      <td>19.4</td>
+      <td>-3.8</td>
+      <td>50.0</td>
+      <td>865</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Mortel</td>
+      <td>Urbaine</td>
+      <td>46.9</td>
+      <td>45.0</td>
+      <td>21.5</td>
+      <td>-3.1</td>
+      <td>50.0</td>
+      <td>1219</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Excès de vitesse par niveau de gravité :
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravite</th>
+      <th>exces_moy</th>
+      <th>q25</th>
+      <th>mediane</th>
+      <th>q75</th>
+      <th>p90</th>
+      <th>n</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Mortel</td>
+      <td>-1.89</td>
+      <td>-10.0</td>
+      <td>-3.0</td>
+      <td>5.0</td>
+      <td>14.0</td>
+      <td>9885</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Grave</td>
+      <td>-4.34</td>
+      <td>-14.0</td>
+      <td>-6.0</td>
+      <td>3.0</td>
+      <td>11.0</td>
+      <td>13260</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Léger</td>
+      <td>-5.60</td>
+      <td>-15.0</td>
+      <td>-7.0</td>
+      <td>2.0</td>
+      <td>9.0</td>
+      <td>26638</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pivot causes × gravité</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">pivot_causes</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">pivot_causes_gravite</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pivot causes × gravité :&#39;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">pivot_causes</span><span class="p">)</span>
+    <span class="n">pivot_causes</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">TABLES_DIR</span> <span class="o">/</span> <span class="s1">&#39;04_pivot_causes_gravite.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PIVOT non supporté dans cette version DuckDB : </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="c1"># Alternative</span>
+    <span class="n">pivot_causes</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">causes_par_gravite</span><span class="p">()</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="s1">&#39;cause&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;gravite&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;nb_accidents&#39;</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">pivot_causes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pivot causes × gravité :
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cause</th>
+      <th>Grave</th>
+      <th>Léger</th>
+      <th>Mortel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Excès de vitesse</td>
+      <td>2256.0</td>
+      <td>4228.0</td>
+      <td>1740.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Alcool</td>
+      <td>1841.0</td>
+      <td>2789.0</td>
+      <td>1564.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Fatigue</td>
+      <td>1815.0</td>
+      <td>2915.0</td>
+      <td>1533.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Mauvais état route</td>
+      <td>1797.0</td>
+      <td>3826.0</td>
+      <td>1298.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Défaillance mécanique</td>
+      <td>1750.0</td>
+      <td>3914.0</td>
+      <td>1270.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Téléphone</td>
+      <td>1246.0</td>
+      <td>2895.0</td>
+      <td>750.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Dépassement dangereux</td>
+      <td>795.0</td>
+      <td>1572.0</td>
+      <td>703.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Sortie de route</td>
+      <td>946.0</td>
+      <td>2361.0</td>
+      <td>634.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Inconnue</td>
+      <td>394.0</td>
+      <td>759.0</td>
+      <td>285.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Collision piéton</td>
+      <td>420.0</td>
+      <td>1379.0</td>
+      <td>108.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="analyse-economique">
+<h2>6. Analyse Économique<a class="headerlink" href="#analyse-economique" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cout_region</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">cout_par_region</span><span class="p">()</span>
+<span class="n">cout_cause</span>  <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">cout_par_cause</span><span class="p">()</span>
+<span class="n">cout_annuel</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">evolution_cout_annuel</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Coût par région :&#39;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">cout_region</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Coût par cause :&#39;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">cout_cause</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Coût par région</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">cout_region</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">],</span> <span class="n">cout_region</span><span class="p">[</span><span class="s1">&#39;cout_total_MFCFA&#39;</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cout_region</span><span class="p">))),</span>
+            <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Coût total par région (MFCFA)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Région&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="c1"># Évolution coût annuel</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cout_annuel</span><span class="p">[</span><span class="s1">&#39;annee&#39;</span><span class="p">],</span> <span class="n">cout_annuel</span><span class="p">[</span><span class="s1">&#39;cout_total_GFCFA&#39;</span><span class="p">],</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span>
+             <span class="n">color</span><span class="o">=</span><span class="n">PALETTE</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">cout_annuel</span><span class="p">[</span><span class="s1">&#39;annee&#39;</span><span class="p">],</span> <span class="n">cout_annuel</span><span class="p">[</span><span class="s1">&#39;cout_total_GFCFA&#39;</span><span class="p">],</span>
+                     <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETTE</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Évolution du coût total (GFCFA)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Année&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Coût (Milliards FCFA)&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">FIGURES_DIR</span> <span class="o">/</span> <span class="s1">&#39;04_analyse_economique.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Coût par région :
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>region</th>
+      <th>nb_accidents</th>
+      <th>cout_total_MFCFA</th>
+      <th>cout_moyen_FCFA</th>
+      <th>cout_max_FCFA</th>
+      <th>cout_median_FCFA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Maritime</td>
+      <td>17510</td>
+      <td>37714.2</td>
+      <td>2153865.0</td>
+      <td>20230612.0</td>
+      <td>1147821.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Plateaux</td>
+      <td>9823</td>
+      <td>20806.2</td>
+      <td>2118111.0</td>
+      <td>20230612.0</td>
+      <td>1125058.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Kara</td>
+      <td>7508</td>
+      <td>16429.6</td>
+      <td>2188277.0</td>
+      <td>20230612.0</td>
+      <td>1132737.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Centrale</td>
+      <td>7343</td>
+      <td>16016.1</td>
+      <td>2181140.0</td>
+      <td>20230612.0</td>
+      <td>1169829.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Savanes</td>
+      <td>7599</td>
+      <td>15895.4</td>
+      <td>2091780.0</td>
+      <td>20230612.0</td>
+      <td>1112718.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Coût par cause :
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cause</th>
+      <th>nb_accidents</th>
+      <th>cout_total_MFCFA</th>
+      <th>cout_moyen</th>
+      <th>taux_mortalite</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Excès de vitesse</td>
+      <td>8224</td>
+      <td>17207.26</td>
+      <td>2092322.0</td>
+      <td>44.11</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mauvais état route</td>
+      <td>6921</td>
+      <td>15186.38</td>
+      <td>2194247.0</td>
+      <td>40.82</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Défaillance mécanique</td>
+      <td>6934</td>
+      <td>14923.42</td>
+      <td>2152210.0</td>
+      <td>39.04</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Fatigue</td>
+      <td>6263</td>
+      <td>14860.06</td>
+      <td>2372674.0</td>
+      <td>51.78</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Alcool</td>
+      <td>6194</td>
+      <td>14684.44</td>
+      <td>2370753.0</td>
+      <td>53.92</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Téléphone</td>
+      <td>4891</td>
+      <td>9368.20</td>
+      <td>1915397.0</td>
+      <td>33.59</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Sortie de route</td>
+      <td>3941</td>
+      <td>8058.06</td>
+      <td>2044674.0</td>
+      <td>34.94</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Dépassement dangereux</td>
+      <td>3070</td>
+      <td>7154.44</td>
+      <td>2330438.0</td>
+      <td>48.40</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Inconnue</td>
+      <td>1438</td>
+      <td>3072.52</td>
+      <td>2136664.0</td>
+      <td>41.03</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Collision piéton</td>
+      <td>1907</td>
+      <td>2346.70</td>
+      <td>1230572.0</td>
+      <td>14.32</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/4fd38b320c08f6ba9383f3ba78bb99c24e3e8ca3c492572fcf117757058bc614.png" src="_images/4fd38b320c08f6ba9383f3ba78bb99c24e3e8ca3c492572fcf117757058bc614.png" />
+</div>
+</div>
+</section>
+<section id="export-du-rapport-complet">
+<h2>7. Export du rapport complet<a class="headerlink" href="#export-du-rapport-complet" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">export_sql_report</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">TABLES_DIR</span><span class="p">)</span>
+<span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rapport SQL exporté dans reports/tables/&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Prochaine étape : notebook 05_folium_map.ipynb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:28:24 | INFO     | sql_queries | DuckDB initialisé avec 49,783 accidents.
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : kpi_globaux.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : gravite.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : tendance_annuelle.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : accidents_par_heure.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : top_regions.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : top_axes.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : causes_gravite.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : analyse_vitesse.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : impact_epi.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : cout_region.csv
+2026-05-21 19:28:24 | INFO     | sql_queries |   Exporté : risque_vehicule.csv
+2026-05-21 19:28:24 | INFO     | sql_queries | Rapport SQL exporté dans ..\reports\tables
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓ Rapport SQL exporté dans reports/tables/
+→ Prochaine étape : notebook 05_folium_map.ipynb
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_eda_visualization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">03 — Analyse Exploratoire des Données (EDA)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_folium_map.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">05 — Cartographie Interactive avec Folium</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kpis-globaux">1. KPIs Globaux</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-par-gravite">2. Distribution par Gravité</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-temporelle">3. Analyse Temporelle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#top-zones-dangereuses">4. Top Zones Dangereuses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-des-causes-et-de-la-vitesse">5. Analyse des Causes et de la Vitesse</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-economique">6. Analyse Économique</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#export-du-rapport-complet">7. Export du rapport complet</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Petema Maleki
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1617 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>01 — Collecte &amp; Exploration Initiale des Données &#8212; Togo Road Accidents Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01_data_collection';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="02 — Nettoyage &amp; Prétraitement des Données" href="02_data_cleaning.html" />
+    <link rel="prev" title="Togo Road Accidents Analysis (2022–2024)" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Togo Road Accidents Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Togo Road Accidents Analysis (2022–2024)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">01 — Collecte &amp; Exploration Initiale des Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_data_cleaning.html">02 — Nettoyage &amp; Prétraitement des Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_eda_visualization.html">03 — Analyse Exploratoire des Données (EDA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_sql_analysis.html">04 — Analyse SQL avec DuckDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_folium_map.html">05 — Cartographie Interactive avec Folium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_dash_dashboard.html">06 — Dashboard Interactif Dash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_predictive_modeling.html">07 — Modélisation Prédictive</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/01_data_collection.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>01 — Collecte & Exploration Initiale des Données</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chargement-du-dataset">1. Chargement du dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dictionnaire-des-variables">2. Dictionnaire des variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profil-des-types-de-donnees">3. Profil des types de données</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-des-valeurs-manquantes">4. Analyse des valeurs manquantes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploration-des-variables-categorielles">5. Exploration des variables catégorielles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploration-des-variables-numeriques">6. Exploration des variables numériques</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anomalies-detectees-rapport-initial">7. Anomalies détectées — Rapport initial</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistiques-de-la-variable-cible-gravite">8. Statistiques de la variable cible (gravite)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="collecte-exploration-initiale-des-donnees">
+<h1>01 — Collecte &amp; Exploration Initiale des Données<a class="headerlink" href="#collecte-exploration-initiale-des-donnees" title="Permalink to this heading">#</a></h1>
+<p><strong>Projet :</strong> Togo Road Accidents Capstone<br />
+<strong>Objectif :</strong> Charger les données brutes, comprendre leur structure, valider la qualité initiale.</p>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;../src&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Configuration</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.float_format&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">120</span>
+
+<span class="n">DATA_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../data/raw/togo_road_accidents_dataset.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Librairies chargées ✓&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Librairies chargées ✓
+</pre></div>
+</div>
+</div>
+</div>
+<section id="chargement-du-dataset">
+<h2>1. Chargement du dataset<a class="headerlink" href="#chargement-du-dataset" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date_accident&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dataset chargé : </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> lignes × </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1"> colonnes&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mémoire        : </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> MB&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset chargé : 50,500 lignes × 29 colonnes
+Mémoire        : 60.9 MB
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>accident_id</th>
+      <th>date_accident</th>
+      <th>heure</th>
+      <th>jour_semaine</th>
+      <th>semestre</th>
+      <th>periode_journaliere</th>
+      <th>region</th>
+      <th>ville</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>axe_routier</th>
+      <th>type_route</th>
+      <th>meteo</th>
+      <th>luminosite</th>
+      <th>type_vehicule</th>
+      <th>nombre_vehicules</th>
+      <th>nombre_victimes</th>
+      <th>nombre_deces</th>
+      <th>gravite</th>
+      <th>cause</th>
+      <th>etat_route</th>
+      <th>limitation_vitesse</th>
+      <th>vitesse_estimee</th>
+      <th>port_casque</th>
+      <th>port_ceinture</th>
+      <th>intervention_secours</th>
+      <th>type_accident</th>
+      <th>accident_fete</th>
+      <th>cout_estime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2025-08-02</td>
+      <td>4</td>
+      <td>Saturday</td>
+      <td>2</td>
+      <td>Nuit</td>
+      <td>Plateaux</td>
+      <td>Atakpamé</td>
+      <td>7.52</td>
+      <td>1.14</td>
+      <td>Atakpamé-Sokodé</td>
+      <td>Nationale</td>
+      <td>Soleil</td>
+      <td>Nuit</td>
+      <td>Bus</td>
+      <td>2</td>
+      <td>2.00</td>
+      <td>0</td>
+      <td>Grave</td>
+      <td>Alcool</td>
+      <td>Bon</td>
+      <td>90</td>
+      <td>NaN</td>
+      <td>Oui</td>
+      <td>Oui</td>
+      <td>37.00</td>
+      <td>Collision frontale</td>
+      <td>Non</td>
+      <td>2500831</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2025-01-21</td>
+      <td>3</td>
+      <td>Tuesday</td>
+      <td>1</td>
+      <td>Nuit</td>
+      <td>Maritime</td>
+      <td>Aného</td>
+      <td>6.23</td>
+      <td>1.58</td>
+      <td>Sokodé-Kara</td>
+      <td>Autoroute</td>
+      <td>Soleil</td>
+      <td>Nuit</td>
+      <td>Camion</td>
+      <td>1</td>
+      <td>1.00</td>
+      <td>0</td>
+      <td>Léger</td>
+      <td>Excès de vitesse</td>
+      <td>Bon</td>
+      <td>110</td>
+      <td>73.00</td>
+      <td>Oui</td>
+      <td>Oui</td>
+      <td>16.00</td>
+      <td>Sortie de route</td>
+      <td>Non</td>
+      <td>1460787</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>2022-02-24</td>
+      <td>20</td>
+      <td>Thursday</td>
+      <td>1</td>
+      <td>Soir</td>
+      <td>Maritime</td>
+      <td>Lome</td>
+      <td>6.13</td>
+      <td>1.24</td>
+      <td>Sokodé-Kara</td>
+      <td>Nationale</td>
+      <td>Soleil</td>
+      <td>Nuit</td>
+      <td>Moto</td>
+      <td>3</td>
+      <td>2.00</td>
+      <td>2</td>
+      <td>Mortel</td>
+      <td>Défaillance mécanique</td>
+      <td>Dégradé</td>
+      <td>90</td>
+      <td>83.00</td>
+      <td>Oui</td>
+      <td>Oui</td>
+      <td>29.00</td>
+      <td>Renversement</td>
+      <td>Non</td>
+      <td>803314</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>2023-07-24</td>
+      <td>0</td>
+      <td>Monday</td>
+      <td>2</td>
+      <td>Nuit</td>
+      <td>Savanes</td>
+      <td>Dapaong</td>
+      <td>10.85</td>
+      <td>0.19</td>
+      <td>Lomé-Kara</td>
+      <td>Rurale</td>
+      <td>Pluie</td>
+      <td>Nuit</td>
+      <td>Tricycle</td>
+      <td>6</td>
+      <td>1.00</td>
+      <td>0</td>
+      <td>Léger</td>
+      <td>NaN</td>
+      <td>Bon</td>
+      <td>50</td>
+      <td>59.00</td>
+      <td>Oui</td>
+      <td>Oui</td>
+      <td>47.00</td>
+      <td>Collision arrière</td>
+      <td>Non</td>
+      <td>231539</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>2022-07-29</td>
+      <td>3</td>
+      <td>Friday</td>
+      <td>2</td>
+      <td>Nuit</td>
+      <td>Maritime</td>
+      <td>Tsévié</td>
+      <td>6.44</td>
+      <td>1.22</td>
+      <td>Atakpamé-Sokodé</td>
+      <td>Rurale</td>
+      <td>Orage</td>
+      <td>Nuit</td>
+      <td>Camion</td>
+      <td>3</td>
+      <td>2.00</td>
+      <td>0</td>
+      <td>Grave</td>
+      <td>Fatigue</td>
+      <td>Bon</td>
+      <td>50</td>
+      <td>62.00</td>
+      <td>Oui</td>
+      <td>Oui</td>
+      <td>34.00</td>
+      <td>Renversement</td>
+      <td>Non</td>
+      <td>2064952</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="dictionnaire-des-variables">
+<h2>2. Dictionnaire des variables<a class="headerlink" href="#dictionnaire-des-variables" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;accident_id&#39;</span><span class="p">:</span>          <span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span>     <span class="s1">&#39;Identifiant unique de l</span><span class="se">\&#39;</span><span class="s1">accident&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;date_accident&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span>    <span class="s1">&#39;Date de l</span><span class="se">\&#39;</span><span class="s1">accident (YYYY-MM-DD)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;heure&#39;</span><span class="p">:</span>                <span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span>     <span class="s1">&#39;Heure de l</span><span class="se">\&#39;</span><span class="s1">accident (0-23)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;jour_semaine&#39;</span><span class="p">:</span>         <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Jour de la semaine en anglais&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;semestre&#39;</span><span class="p">:</span>             <span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span>     <span class="s1">&#39;Semestre de l</span><span class="se">\&#39;</span><span class="s1">année (1 ou 2)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;periode_journaliere&#39;</span><span class="p">:</span>  <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Matin / Après-midi / Soir / Nuit&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;region&#39;</span><span class="p">:</span>               <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Région du Togo (5 régions)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;ville&#39;</span><span class="p">:</span>                <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Ville où s</span><span class="se">\&#39;</span><span class="s1">est produit l</span><span class="se">\&#39;</span><span class="s1">accident&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;latitude&#39;</span><span class="p">:</span>             <span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">,</span>   <span class="s1">&#39;Latitude GPS&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;longitude&#39;</span><span class="p">:</span>            <span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">,</span>   <span class="s1">&#39;Longitude GPS&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;axe_routier&#39;</span><span class="p">:</span>          <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Nom de l</span><span class="se">\&#39;</span><span class="s1">axe routier&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;type_route&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Urbaine / Interurbaine / Rurale&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;meteo&#39;</span><span class="p">:</span>                <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Conditions météo au moment de l</span><span class="se">\&#39;</span><span class="s1">accident&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;luminosite&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Jour / Nuit / Crépuscule&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;type_vehicule&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Type de véhicule principal impliqué&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;nombre_vehicules&#39;</span><span class="p">:</span>     <span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span>     <span class="s1">&#39;Nombre de véhicules impliqués&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;nombre_victimes&#39;</span><span class="p">:</span>      <span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">,</span>   <span class="s1">&#39;Nombre de personnes blessées&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;nombre_deces&#39;</span><span class="p">:</span>         <span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span>     <span class="s1">&#39;Nombre de décès&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;gravite&#39;</span><span class="p">:</span>              <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;CIBLE : Léger / Grave / Mortel&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;cause&#39;</span><span class="p">:</span>                <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Cause principale de l</span><span class="se">\&#39;</span><span class="s1">accident&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;etat_route&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Bon / Dégradé / Très dégradé&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;limitation_vitesse&#39;</span><span class="p">:</span>   <span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span>     <span class="s1">&#39;Limitation de vitesse sur l</span><span class="se">\&#39;</span><span class="s1">axe (km/h)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;vitesse_estimee&#39;</span><span class="p">:</span>      <span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">,</span>   <span class="s1">&#39;Vitesse estimée du véhicule (km/h)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;port_casque&#39;</span><span class="p">:</span>          <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Port du casque (Oui/Non)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;port_ceinture&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Port de la ceinture (Oui/Non)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;intervention_secours&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">,</span>   <span class="s1">&#39;Délai d</span><span class="se">\&#39;</span><span class="s1">intervention des secours (minutes)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;type_accident&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Type de collision&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;accident_fete&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>     <span class="s1">&#39;Accident survenu un jour férié (Oui/Non)&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;cout_estime&#39;</span><span class="p">:</span>          <span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span>     <span class="s1">&#39;Coût économique estimé (FCFA)&#39;</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">dict_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Description&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">dict_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Colonne&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Variables : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dict_df</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">dict_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Variables : 29
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <th>Colonne</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>accident_id</th>
+      <td>int</td>
+      <td>Identifiant unique de l'accident</td>
+    </tr>
+    <tr>
+      <th>date_accident</th>
+      <td>date</td>
+      <td>Date de l'accident (YYYY-MM-DD)</td>
+    </tr>
+    <tr>
+      <th>heure</th>
+      <td>int</td>
+      <td>Heure de l'accident (0-23)</td>
+    </tr>
+    <tr>
+      <th>jour_semaine</th>
+      <td>str</td>
+      <td>Jour de la semaine en anglais</td>
+    </tr>
+    <tr>
+      <th>semestre</th>
+      <td>int</td>
+      <td>Semestre de l'année (1 ou 2)</td>
+    </tr>
+    <tr>
+      <th>periode_journaliere</th>
+      <td>str</td>
+      <td>Matin / Après-midi / Soir / Nuit</td>
+    </tr>
+    <tr>
+      <th>region</th>
+      <td>str</td>
+      <td>Région du Togo (5 régions)</td>
+    </tr>
+    <tr>
+      <th>ville</th>
+      <td>str</td>
+      <td>Ville où s'est produit l'accident</td>
+    </tr>
+    <tr>
+      <th>latitude</th>
+      <td>float</td>
+      <td>Latitude GPS</td>
+    </tr>
+    <tr>
+      <th>longitude</th>
+      <td>float</td>
+      <td>Longitude GPS</td>
+    </tr>
+    <tr>
+      <th>axe_routier</th>
+      <td>str</td>
+      <td>Nom de l'axe routier</td>
+    </tr>
+    <tr>
+      <th>type_route</th>
+      <td>str</td>
+      <td>Urbaine / Interurbaine / Rurale</td>
+    </tr>
+    <tr>
+      <th>meteo</th>
+      <td>str</td>
+      <td>Conditions météo au moment de l'accident</td>
+    </tr>
+    <tr>
+      <th>luminosite</th>
+      <td>str</td>
+      <td>Jour / Nuit / Crépuscule</td>
+    </tr>
+    <tr>
+      <th>type_vehicule</th>
+      <td>str</td>
+      <td>Type de véhicule principal impliqué</td>
+    </tr>
+    <tr>
+      <th>nombre_vehicules</th>
+      <td>int</td>
+      <td>Nombre de véhicules impliqués</td>
+    </tr>
+    <tr>
+      <th>nombre_victimes</th>
+      <td>float</td>
+      <td>Nombre de personnes blessées</td>
+    </tr>
+    <tr>
+      <th>nombre_deces</th>
+      <td>int</td>
+      <td>Nombre de décès</td>
+    </tr>
+    <tr>
+      <th>gravite</th>
+      <td>str</td>
+      <td>CIBLE : Léger / Grave / Mortel</td>
+    </tr>
+    <tr>
+      <th>cause</th>
+      <td>str</td>
+      <td>Cause principale de l'accident</td>
+    </tr>
+    <tr>
+      <th>etat_route</th>
+      <td>str</td>
+      <td>Bon / Dégradé / Très dégradé</td>
+    </tr>
+    <tr>
+      <th>limitation_vitesse</th>
+      <td>int</td>
+      <td>Limitation de vitesse sur l'axe (km/h)</td>
+    </tr>
+    <tr>
+      <th>vitesse_estimee</th>
+      <td>float</td>
+      <td>Vitesse estimée du véhicule (km/h)</td>
+    </tr>
+    <tr>
+      <th>port_casque</th>
+      <td>str</td>
+      <td>Port du casque (Oui/Non)</td>
+    </tr>
+    <tr>
+      <th>port_ceinture</th>
+      <td>str</td>
+      <td>Port de la ceinture (Oui/Non)</td>
+    </tr>
+    <tr>
+      <th>intervention_secours</th>
+      <td>float</td>
+      <td>Délai d'intervention des secours (minutes)</td>
+    </tr>
+    <tr>
+      <th>type_accident</th>
+      <td>str</td>
+      <td>Type de collision</td>
+    </tr>
+    <tr>
+      <th>accident_fete</th>
+      <td>str</td>
+      <td>Accident survenu un jour férié (Oui/Non)</td>
+    </tr>
+    <tr>
+      <th>cout_estime</th>
+      <td>int</td>
+      <td>Coût économique estimé (FCFA)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="profil-des-types-de-donnees">
+<h2>3. Profil des types de données<a class="headerlink" href="#profil-des-types-de-donnees" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Types et cardinalité</span>
+<span class="n">profile</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;dtype&#39;</span><span class="p">:</span>     <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">,</span>
+    <span class="s1">&#39;non_null&#39;</span><span class="p">:</span>  <span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+    <span class="s1">&#39;null_pct&#39;</span><span class="p">:</span>  <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+    <span class="s1">&#39;unique&#39;</span><span class="p">:</span>    <span class="n">df</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+    <span class="s1">&#39;exemple&#39;</span><span class="p">:</span>   <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">})</span>
+<span class="n">profile</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dtype</th>
+      <th>non_null</th>
+      <th>null_pct</th>
+      <th>unique</th>
+      <th>exemple</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>accident_id</th>
+      <td>int64</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>50000</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>date_accident</th>
+      <td>datetime64[ns]</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>1461</td>
+      <td>2025-08-02 00:00:00</td>
+    </tr>
+    <tr>
+      <th>heure</th>
+      <td>int64</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>25</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>jour_semaine</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>7</td>
+      <td>Saturday</td>
+    </tr>
+    <tr>
+      <th>semestre</th>
+      <td>int64</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>periode_journaliere</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>4</td>
+      <td>Nuit</td>
+    </tr>
+    <tr>
+      <th>region</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>5</td>
+      <td>Plateaux</td>
+    </tr>
+    <tr>
+      <th>ville</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>12</td>
+      <td>Atakpamé</td>
+    </tr>
+    <tr>
+      <th>latitude</th>
+      <td>float64</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>47942</td>
+      <td>7.52</td>
+    </tr>
+    <tr>
+      <th>longitude</th>
+      <td>float64</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>46639</td>
+      <td>1.14</td>
+    </tr>
+    <tr>
+      <th>axe_routier</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>6</td>
+      <td>Atakpamé-Sokodé</td>
+    </tr>
+    <tr>
+      <th>type_route</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>5</td>
+      <td>Nationale</td>
+    </tr>
+    <tr>
+      <th>meteo</th>
+      <td>object</td>
+      <td>48985</td>
+      <td>3.00</td>
+      <td>4</td>
+      <td>Soleil</td>
+    </tr>
+    <tr>
+      <th>luminosite</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>2</td>
+      <td>Nuit</td>
+    </tr>
+    <tr>
+      <th>type_vehicule</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>5</td>
+      <td>Bus</td>
+    </tr>
+    <tr>
+      <th>nombre_vehicules</th>
+      <td>int64</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>10</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>nombre_victimes</th>
+      <td>float64</td>
+      <td>49015</td>
+      <td>2.94</td>
+      <td>9</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <th>nombre_deces</th>
+      <td>int64</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>5</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>gravite</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>3</td>
+      <td>Grave</td>
+    </tr>
+    <tr>
+      <th>cause</th>
+      <td>object</td>
+      <td>49038</td>
+      <td>2.90</td>
+      <td>9</td>
+      <td>Alcool</td>
+    </tr>
+    <tr>
+      <th>etat_route</th>
+      <td>object</td>
+      <td>48934</td>
+      <td>3.10</td>
+      <td>3</td>
+      <td>Bon</td>
+    </tr>
+    <tr>
+      <th>limitation_vitesse</th>
+      <td>int64</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>4</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>vitesse_estimee</th>
+      <td>float64</td>
+      <td>49017</td>
+      <td>2.94</td>
+      <td>253</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>port_casque</th>
+      <td>object</td>
+      <td>49036</td>
+      <td>2.90</td>
+      <td>2</td>
+      <td>Oui</td>
+    </tr>
+    <tr>
+      <th>port_ceinture</th>
+      <td>object</td>
+      <td>48936</td>
+      <td>3.10</td>
+      <td>2</td>
+      <td>Oui</td>
+    </tr>
+    <tr>
+      <th>intervention_secours</th>
+      <td>float64</td>
+      <td>48972</td>
+      <td>3.03</td>
+      <td>110</td>
+      <td>37.00</td>
+    </tr>
+    <tr>
+      <th>type_accident</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>6</td>
+      <td>Collision frontale</td>
+    </tr>
+    <tr>
+      <th>accident_fete</th>
+      <td>object</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>2</td>
+      <td>Non</td>
+    </tr>
+    <tr>
+      <th>cout_estime</th>
+      <td>int64</td>
+      <td>50500</td>
+      <td>0.00</td>
+      <td>49582</td>
+      <td>2500831</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="analyse-des-valeurs-manquantes">
+<h2>4. Analyse des valeurs manquantes<a class="headerlink" href="#analyse-des-valeurs-manquantes" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">missingno</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">msno</span>
+
+<span class="n">nulls</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">nulls</span> <span class="o">=</span> <span class="n">nulls</span><span class="p">[</span><span class="n">nulls</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Barres des valeurs manquantes</span>
+<span class="n">nulls_pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">nulls</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">nulls</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">nulls_pct</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#e74c3c&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;% valeurs manquantes&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Taux de valeurs manquantes par colonne&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">pct</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nulls_pct</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">pct</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pct</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="c1"># Distribution globale</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()],</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Non-null&#39;</span><span class="p">,</span> <span class="s1">&#39;Manquant&#39;</span><span class="p">],</span>
+    <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;#27ae60&#39;</span><span class="p">,</span> <span class="s1">&#39;#e74c3c&#39;</span><span class="p">],</span>
+    <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.2f%%</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="n">startangle</span><span class="o">=</span><span class="mi">90</span>
+<span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Complétude globale du dataset&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../reports/figures/01_missing_values.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total valeurs manquantes : </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Taux de complétude global : </span><span class="si">{</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5577dd4f06d9c346676592531c42ff54891b0021a5221ed023d3e519df197c87.png" src="_images/5577dd4f06d9c346676592531c42ff54891b0021a5221ed023d3e519df197c87.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total valeurs manquantes : 12,067
+Taux de complétude global : 99.18%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exploration-des-variables-categorielles">
+<h2>5. Exploration des variables catégorielles<a class="headerlink" href="#exploration-des-variables-categorielles" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cat_cols</span><span class="p">[:</span><span class="mi">12</span><span class="p">]):</span>
+    <span class="n">vc</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vc</span><span class="p">)),</span> <span class="n">vc</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vc</span><span class="p">))))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vc</span><span class="p">)))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">vc</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">vc</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s1"> modalités)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fréquence&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Distribution des Variables Catégorielles&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../reports/figures/01_cat_distributions.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b21b4438e4146fced6ba85e4efc9b88cb4efbefd55a9001744180181df18e86e.png" src="_images/b21b4438e4146fced6ba85e4efc9b88cb4efbefd55a9001744180181df18e86e.png" />
+</div>
+</div>
+</section>
+<section id="exploration-des-variables-numeriques">
+<h2>6. Exploration des variables numériques<a class="headerlink" href="#exploration-des-variables-numeriques" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">num_cols_viz</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">num_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;accident_id&#39;</span><span class="p">]]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">num_cols_viz</span><span class="p">[:</span><span class="mi">12</span><span class="p">]):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#3498db&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Médiane: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Moyenne: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Distributions des Variables Numériques&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../reports/figures/01_num_distributions.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">df</span><span class="p">[</span><span class="n">num_cols_viz</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e11b5603e7ff13944d5873cf1351aae84d50f6ea705de9d2ec1441f3326639ca.png" src="_images/e11b5603e7ff13944d5873cf1351aae84d50f6ea705de9d2ec1441f3326639ca.png" />
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>heure</th>
+      <th>semestre</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>nombre_vehicules</th>
+      <th>nombre_victimes</th>
+      <th>nombre_deces</th>
+      <th>limitation_vitesse</th>
+      <th>vitesse_estimee</th>
+      <th>intervention_secours</th>
+      <th>cout_estime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>50500.00</td>
+      <td>50500.00</td>
+      <td>50500.00</td>
+      <td>50500.00</td>
+      <td>50500.00</td>
+      <td>49015.00</td>
+      <td>50500.00</td>
+      <td>50500.00</td>
+      <td>49017.00</td>
+      <td>48972.00</td>
+      <td>50500.00</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>11.57</td>
+      <td>1.50</td>
+      <td>8.07</td>
+      <td>1.04</td>
+      <td>2.58</td>
+      <td>2.22</td>
+      <td>0.43</td>
+      <td>68.89</td>
+      <td>64.85</td>
+      <td>41.46</td>
+      <td>2164403.89</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>6.94</td>
+      <td>0.50</td>
+      <td>1.84</td>
+      <td>0.40</td>
+      <td>1.35</td>
+      <td>1.25</td>
+      <td>0.87</td>
+      <td>21.36</td>
+      <td>29.62</td>
+      <td>18.06</td>
+      <td>2798703.47</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.00</td>
+      <td>1.00</td>
+      <td>6.07</td>
+      <td>0.15</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>0.00</td>
+      <td>50.00</td>
+      <td>-30.00</td>
+      <td>5.00</td>
+      <td>62689.00</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>6.00</td>
+      <td>1.00</td>
+      <td>6.41</td>
+      <td>0.63</td>
+      <td>2.00</td>
+      <td>1.00</td>
+      <td>0.00</td>
+      <td>50.00</td>
+      <td>45.00</td>
+      <td>28.00</td>
+      <td>556205.75</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>12.00</td>
+      <td>2.00</td>
+      <td>7.57</td>
+      <td>1.16</td>
+      <td>2.00</td>
+      <td>2.00</td>
+      <td>0.00</td>
+      <td>50.00</td>
+      <td>60.00</td>
+      <td>40.00</td>
+      <td>1146879.50</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>18.00</td>
+      <td>2.00</td>
+      <td>9.56</td>
+      <td>1.22</td>
+      <td>3.00</td>
+      <td>3.00</td>
+      <td>0.00</td>
+      <td>90.00</td>
+      <td>81.00</td>
+      <td>53.00</td>
+      <td>2532222.50</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>30.00</td>
+      <td>2.00</td>
+      <td>95.00</td>
+      <td>1.65</td>
+      <td>10.00</td>
+      <td>9.00</td>
+      <td>5.00</td>
+      <td>110.00</td>
+      <td>299.00</td>
+      <td>117.00</td>
+      <td>33434640.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="anomalies-detectees-rapport-initial">
+<h2>7. Anomalies détectées — Rapport initial<a class="headerlink" href="#anomalies-detectees-rapport-initial" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">anomalies</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Heures hors plage 0-23</span>
+<span class="n">anomalies</span><span class="p">[</span><span class="s1">&#39;heure_hors_plage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">23</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Coûts négatifs</span>
+<span class="n">anomalies</span><span class="p">[</span><span class="s1">&#39;cout_negatif&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;cout_estime&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Décès &gt; victimes</span>
+<span class="n">anomalies</span><span class="p">[</span><span class="s1">&#39;deces_sup_victimes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;nombre_deces&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;nombre_victimes&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Vitesses &gt; 200 km/h</span>
+<span class="n">anomalies</span><span class="p">[</span><span class="s1">&#39;vitesse_aberrante&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;vitesse_estimee&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Doublons</span>
+<span class="n">anomalies</span><span class="p">[</span><span class="s1">&#39;doublons&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accident_id&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">anomaly_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">anomalies</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Nombre&#39;</span><span class="p">])</span>
+<span class="n">anomaly_df</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">% d</span><span class="s1">u dataset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">anomaly_df</span><span class="p">[</span><span class="s1">&#39;Nombre&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">anomaly_df</span><span class="p">[</span><span class="s1">&#39;Action&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Correction par modulo 24&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Remplacement par médiane&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Suppression de la ligne&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Plafonnement à 200 km/h&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Déduplication&#39;</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;═&#39;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RAPPORT D</span><span class="se">\&#39;</span><span class="s1">ANOMALIES INITIALES&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;═&#39;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">anomaly_df</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">→ Ces anomalies seront corrigées dans le notebook 02_data_cleaning.ipynb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>════════════════════════════════════════════════════════════
+RAPPORT D&#39;ANOMALIES INITIALES
+════════════════════════════════════════════════════════════
+                    Nombre  % du dataset                    Action
+heure_hors_plage         8          0.02  Correction par modulo 24
+cout_negatif             0          0.00  Remplacement par médiane
+deces_sup_victimes      10          0.02   Suppression de la ligne
+vitesse_aberrante      423          0.84   Plafonnement à 200 km/h
+doublons               500          0.99             Déduplication
+
+→ Ces anomalies seront corrigées dans le notebook 02_data_cleaning.ipynb
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="statistiques-de-la-variable-cible-gravite">
+<h2>8. Statistiques de la variable cible (gravite)<a class="headerlink" href="#statistiques-de-la-variable-cible-gravite" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_dist</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gravite&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">target_pct</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gravite&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="n">target_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Nombre&#39;</span><span class="p">:</span> <span class="n">target_dist</span><span class="p">,</span> <span class="s1">&#39;Pourcentage (%)&#39;</span><span class="p">:</span> <span class="n">target_pct</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Distribution de la variable cible (gravite) :&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">target_df</span><span class="p">)</span>
+
+<span class="c1"># Calcul du déséquilibre</span>
+<span class="n">majority_pct</span> <span class="o">=</span> <span class="n">target_pct</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">minority_pct</span> <span class="o">=</span> <span class="n">target_pct</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Ratio déséquilibre : </span><span class="si">{</span><span class="n">majority_pct</span><span class="o">/</span><span class="n">minority_pct</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">:1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;→ Imbalanced dataset : utiliser class_weight=&quot;balanced&quot; ou SMOTE&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribution de la variable cible (gravite) :
+         Nombre  Pourcentage (%)
+gravite                         
+Léger     26881            53.23
+Grave     13410            26.55
+Mortel    10209            20.22
+
+Ratio déséquilibre : 2.6:1
+→ Imbalanced dataset : utiliser class_weight=&quot;balanced&quot; ou SMOTE
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sauvegarde du rapport</span>
+<span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+    <span class="s1">&#39;periode&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date_accident&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date_accident&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;nb_colonnes&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s1">&#39;nb_lignes&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s1">&#39;completude_pct&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s1">&#39;nb_anomalies&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">anomalies</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+    <span class="s1">&#39;target_distribution&#39;</span><span class="p">:</span> <span class="n">target_df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../reports/tables/01_collection_report.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;✓ Rapport sauvegardé dans reports/tables/01_collection_report.json&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">→ Prochaine étape : notebook 02_data_cleaning.ipynb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓ Rapport sauvegardé dans reports/tables/01_collection_report.json
+
+→ Prochaine étape : notebook 02_data_cleaning.ipynb
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Togo Road Accidents Analysis (2022–2024)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_data_cleaning.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">02 — Nettoyage &amp; Prétraitement des Données</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chargement-du-dataset">1. Chargement du dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dictionnaire-des-variables">2. Dictionnaire des variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profil-des-types-de-donnees">3. Profil des types de données</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-des-valeurs-manquantes">4. Analyse des valeurs manquantes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploration-des-variables-categorielles">5. Exploration des variables catégorielles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploration-des-variables-numeriques">6. Exploration des variables numériques</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anomalies-detectees-rapport-initial">7. Anomalies détectées — Rapport initial</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistiques-de-la-variable-cible-gravite">8. Statistiques de la variable cible (gravite)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Petema Maleki
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

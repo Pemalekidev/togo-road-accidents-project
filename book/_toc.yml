@@ -1,0 +1,11 @@
+format: jb-book
+root: intro
+
+chapters:
+  - file: 01_data_collection
+  - file: 02_data_cleaning
+  - file: 03_eda_visualization
+  - file: 04_sql_analysis
+  - file: 05_folium_map
+  - file: 06_dash_dashboard
+  - file: 07_predictive_modeling
