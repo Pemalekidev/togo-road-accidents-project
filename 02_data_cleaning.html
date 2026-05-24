@@ -1,0 +1,855 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>02 — Nettoyage &amp; Prétraitement des Données &#8212; Togo Road Accidents Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_data_cleaning';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="03 — Analyse Exploratoire des Données (EDA)" href="03_eda_visualization.html" />
+    <link rel="prev" title="01 — Collecte &amp; Exploration Initiale des Données" href="01_data_collection.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Togo Road Accidents Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Togo Road Accidents Analysis (2022–2024)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_data_collection.html">01 — Collecte &amp; Exploration Initiale des Données</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">02 — Nettoyage &amp; Prétraitement des Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_eda_visualization.html">03 — Analyse Exploratoire des Données (EDA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_sql_analysis.html">04 — Analyse SQL avec DuckDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_folium_map.html">05 — Cartographie Interactive avec Folium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_dash_dashboard.html">06 — Dashboard Interactif Dash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_predictive_modeling.html">07 — Modélisation Prédictive</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_data_cleaning.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>02 — Nettoyage & Prétraitement des Données</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chargement-des-donnees-brutes">1. Chargement des données brutes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapes-de-nettoyage-pas-a-pas">2. Étapes de nettoyage (pas à pas)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-complet-de-nettoyage">3. Pipeline complet de nettoyage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rapport-de-qualite-avant-apres">4. Rapport de qualité avant/après</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-du-schema">5. Validation du schéma</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="nettoyage-pretraitement-des-donnees">
+<h1>02 — Nettoyage &amp; Prétraitement des Données<a class="headerlink" href="#nettoyage-pretraitement-des-donnees" title="Permalink to this heading">#</a></h1>
+<p><strong>Objectif :</strong> Corriger les anomalies, imputer les valeurs manquantes, valider la qualité finale.<br />
+<strong>Entrée :</strong> <code class="docutils literal notranslate"><span class="pre">data/raw/togo_road_accidents_dataset.csv</span></code><br />
+<strong>Sortie :</strong> <code class="docutils literal notranslate"><span class="pre">data/processed/accidents_clean.parquet</span></code></p>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;../src&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">data_preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">load_raw</span><span class="p">,</span> <span class="n">clean_strings</span><span class="p">,</span> <span class="n">fix_date_column</span><span class="p">,</span> <span class="n">fix_heure_anomalies</span><span class="p">,</span>
+    <span class="n">fix_vitesse_anomalies</span><span class="p">,</span> <span class="n">fix_cout_negatif</span><span class="p">,</span> <span class="n">standardize_binary_columns</span><span class="p">,</span>
+    <span class="n">impute_missing_values</span><span class="p">,</span> <span class="n">remove_duplicates</span><span class="p">,</span> <span class="n">remove_extreme_outliers</span><span class="p">,</span>
+    <span class="n">encode_target</span><span class="p">,</span> <span class="n">run_cleaning_pipeline</span><span class="p">,</span> <span class="n">data_quality_report</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">quick_info</span><span class="p">,</span> <span class="n">validate_schema</span><span class="p">,</span> <span class="n">GRAVITE_COLORS</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">120</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Modules chargés &#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Modules chargés ✓
+</pre></div>
+</div>
+</div>
+</div>
+<section id="chargement-des-donnees-brutes">
+<h2>1. Chargement des données brutes<a class="headerlink" href="#chargement-des-donnees-brutes" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_raw</span> <span class="o">=</span> <span class="n">load_raw</span><span class="p">(</span><span class="s1">&#39;../data/raw/togo_road_accidents_dataset.csv&#39;</span><span class="p">)</span>
+<span class="n">quick_info</span><span class="p">(</span><span class="n">df_raw</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:24:21 | INFO     | preprocessing | Chargement des données brutes depuis ../data/raw/togo_road_accidents_dataset.csv...
+2026-05-21 19:24:22 | INFO     | preprocessing |   → 50,500 lignes, 29 colonnes chargées.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+Shape     : 50,500 lignes × 29 colonnes
+Mémoire   : 59.0 MB
+Doublons  : 303
+
+Valeurs manquantes (top 10):
+  etat_route                      1,566  (3.1%)
+  port_ceinture                   1,564  (3.1%)
+  intervention_secours            1,528  (3.0%)
+  meteo                           1,515  (3.0%)
+  nombre_victimes                 1,485  (2.9%)
+  vitesse_estimee                 1,483  (2.9%)
+  port_casque                     1,464  (2.9%)
+  cause                           1,462  (2.9%)
+============================================================
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="etapes-de-nettoyage-pas-a-pas">
+<h2>2. Étapes de nettoyage (pas à pas)<a class="headerlink" href="#etapes-de-nettoyage-pas-a-pas" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Étape 1 : Heures aberrantes ──────────────────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Heures hors [0,23] avant :&#39;</span><span class="p">,</span> <span class="p">((</span><span class="n">df_raw</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">23</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">df_step1</span> <span class="o">=</span> <span class="n">fix_heure_anomalies</span><span class="p">(</span><span class="n">df_raw</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Heures hors [0,23] après :&#39;</span><span class="p">,</span> <span class="p">((</span><span class="n">df_step1</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df_step1</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">23</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1"># Visualisation</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#e74c3c&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Heure AVANT correction&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Heure&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_step1</span><span class="p">[</span><span class="s1">&#39;heure&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#27ae60&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Heure APRÈS correction (modulo 24)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Heure&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../reports/figures/02_heure_correction.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:24:22 | INFO     | preprocessing |   Heures aberrantes : 8 → correction par modulo 24.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Heures hors [0,23] avant : 8
+Heures hors [0,23] après : 0
+</pre></div>
+</div>
+<img alt="_images/ffa6522f1265749f5a1635ee55e2a329a9cb0b51de7e47d0a6f63a01fd704ec0.png" src="_images/ffa6522f1265749f5a1635ee55e2a329a9cb0b51de7e47d0a6f63a01fd704ec0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Étape 2 : Vitesses aberrantes ─────────────────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Vitesse max avant : </span><span class="si">{</span><span class="n">df_raw</span><span class="p">[</span><span class="s2">&quot;vitesse_estimee&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> km/h&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Vitesse &gt; 200 km/h : </span><span class="si">{</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="s2">&quot;vitesse_estimee&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">df_step2</span> <span class="o">=</span> <span class="n">fix_vitesse_anomalies</span><span class="p">(</span><span class="n">df_step1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Vitesse max après : </span><span class="si">{</span><span class="n">df_step2</span><span class="p">[</span><span class="s2">&quot;vitesse_estimee&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> km/h&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="s1">&#39;vitesse_estimee&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Vitesse AVANT correction&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">df_step2</span><span class="p">[</span><span class="s1">&#39;vitesse_estimee&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Vitesse APRÈS correction&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../reports/figures/02_vitesse_correction.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:24:24 | INFO     | preprocessing |   Vitesses hors plage [0, 200] : 894 valeurs clampées.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vitesse max avant : 299.0 km/h
+Vitesse &gt; 200 km/h : 423
+Vitesse max après : 200.0 km/h
+</pre></div>
+</div>
+<img alt="_images/29b30f7a88cd4b799ae6a6609a4c3d30d8a72c7c805c1cfb0c933df4925632d5.png" src="_images/29b30f7a88cd4b799ae6a6609a4c3d30d8a72c7c805c1cfb0c933df4925632d5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Étape 3 : Imputation des valeurs manquantes ────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Valeurs manquantes avant imputation :&#39;</span><span class="p">)</span>
+<span class="n">nulls_before</span> <span class="o">=</span> <span class="n">df_step2</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nulls_before</span><span class="p">[</span><span class="n">nulls_before</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">df_step3</span> <span class="o">=</span> <span class="n">impute_missing_values</span><span class="p">(</span><span class="n">df_step2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Valeurs manquantes après imputation :&#39;</span><span class="p">)</span>
+<span class="n">nulls_after</span> <span class="o">=</span> <span class="n">df_step3</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nulls_after</span><span class="p">[</span><span class="n">nulls_after</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="n">nulls_after</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;Aucune ✓&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valeurs manquantes avant imputation :
+meteo                   1515
+nombre_victimes         1485
+cause                   1462
+etat_route              1566
+vitesse_estimee         1483
+port_casque             1464
+port_ceinture           1564
+intervention_secours    1528
+dtype: int64
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:24:25 | INFO     | preprocessing |   meteo : 1515 NaN → &#39;Soleil&#39;
+2026-05-21 19:24:25 | INFO     | preprocessing |   cause : 1462 NaN → &#39;Inconnue&#39;
+2026-05-21 19:24:25 | INFO     | preprocessing |   etat_route : 1566 NaN → mode par region
+2026-05-21 19:24:25 | INFO     | preprocessing |   vitesse_estimee : 1483 NaN → médiane par type_route
+2026-05-21 19:24:25 | INFO     | preprocessing |   nombre_victimes : 1485 NaN → 1
+2026-05-21 19:24:25 | INFO     | preprocessing |   port_casque : 1464 NaN → &#39;Oui&#39;
+2026-05-21 19:24:25 | INFO     | preprocessing |   port_ceinture : 1564 NaN → &#39;Oui&#39;
+2026-05-21 19:24:25 | INFO     | preprocessing |   intervention_secours : 1528 NaN → 40 min
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valeurs manquantes après imputation :
+Aucune ✓
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisation de l&#39;imputation : méteo</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">meteo_before</span> <span class="o">=</span> <span class="n">df_step2</span><span class="p">[</span><span class="s1">&#39;meteo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">meteo_after</span>  <span class="o">=</span> <span class="n">df_step3</span><span class="p">[</span><span class="s1">&#39;meteo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">meteo_before</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span> <span class="n">meteo_before</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#3498db&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Météo AVANT imputation (NaN visible)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">meteo_after</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span> <span class="n">meteo_after</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#27ae60&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Météo APRÈS imputation (mode global)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../reports/figures/02_imputation_meteo.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a57d6b8d759319eee3e92a8d381169b43f7eaf89bfb39c276a2cc9625b4a1fd2.png" src="_images/a57d6b8d759319eee3e92a8d381169b43f7eaf89bfb39c276a2cc9625b4a1fd2.png" />
+</div>
+</div>
+</section>
+<section id="pipeline-complet-de-nettoyage">
+<h2>3. Pipeline complet de nettoyage<a class="headerlink" href="#pipeline-complet-de-nettoyage" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_clean</span> <span class="o">=</span> <span class="n">run_cleaning_pipeline</span><span class="p">(</span>
+    <span class="n">raw_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../data/raw/togo_road_accidents_dataset.csv&#39;</span><span class="p">),</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../data/processed/accidents_clean.parquet&#39;</span><span class="p">),</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Dataset nettoyé : </span><span class="si">{</span><span class="n">df_clean</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:24:26 | INFO     | preprocessing | ════════════════════════════════════════════════════════════
+2026-05-21 19:24:26 | INFO     | preprocessing | DÉMARRAGE DU PIPELINE DE NETTOYAGE
+2026-05-21 19:24:26 | INFO     | preprocessing | ════════════════════════════════════════════════════════════
+2026-05-21 19:24:26 | INFO     | preprocessing | Chargement des données brutes depuis ..\data\raw\togo_road_accidents_dataset.csv...
+2026-05-21 19:24:26 | INFO     | preprocessing |   → 50,500 lignes, 29 colonnes chargées.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+Shape     : 50,500 lignes × 29 colonnes
+Mémoire   : 59.0 MB
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:24:27 | INFO     | preprocessing | 
+[1/8] Nettoyage des chaînes de caractères...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Doublons  : 303
+
+Valeurs manquantes (top 10):
+  etat_route                      1,566  (3.1%)
+  port_ceinture                   1,564  (3.1%)
+  intervention_secours            1,528  (3.0%)
+  meteo                           1,515  (3.0%)
+  nombre_victimes                 1,485  (2.9%)
+  vitesse_estimee                 1,483  (2.9%)
+  port_casque                     1,464  (2.9%)
+  cause                           1,462  (2.9%)
+============================================================
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:24:27 | INFO     | preprocessing | [2/8] Correction des dates...
+2026-05-21 19:24:27 | INFO     | preprocessing | [3/8] Correction des heures aberrantes...
+2026-05-21 19:24:27 | INFO     | preprocessing |   Heures aberrantes : 8 → correction par modulo 24.
+2026-05-21 19:24:27 | INFO     | preprocessing | [4/8] Correction des vitesses aberrantes...
+2026-05-21 19:24:27 | INFO     | preprocessing |   Vitesses hors plage [0, 200] : 894 valeurs clampées.
+2026-05-21 19:24:27 | INFO     | preprocessing | [5/8] Correction des coûts négatifs...
+2026-05-21 19:24:27 | INFO     | preprocessing | [6/8] Standardisation colonnes binaires...
+2026-05-21 19:24:27 | INFO     | preprocessing | [7/8] Imputation des valeurs manquantes...
+2026-05-21 19:24:27 | INFO     | preprocessing |   meteo : 1515 NaN → &#39;Soleil&#39;
+2026-05-21 19:24:27 | INFO     | preprocessing |   cause : 1462 NaN → &#39;Inconnue&#39;
+2026-05-21 19:24:27 | INFO     | preprocessing |   etat_route : 1566 NaN → mode par region
+2026-05-21 19:24:27 | INFO     | preprocessing |   vitesse_estimee : 1483 NaN → médiane par type_route
+2026-05-21 19:24:27 | INFO     | preprocessing |   nombre_victimes : 1485 NaN → 1
+2026-05-21 19:24:27 | INFO     | preprocessing |   port_casque : 1464 NaN → &#39;Oui&#39;
+2026-05-21 19:24:27 | INFO     | preprocessing |   port_ceinture : 1564 NaN → &#39;Oui&#39;
+2026-05-21 19:24:27 | INFO     | preprocessing |   intervention_secours : 1528 NaN → 40 min
+2026-05-21 19:24:27 | INFO     | preprocessing | [8/8] Suppression doublons &amp; outliers...
+2026-05-21 19:24:28 | INFO     | preprocessing |   Doublons supprimés : 500
+2026-05-21 19:24:28 | INFO     | preprocessing |   Lignes aberrantes supprimées : 217
+2026-05-21 19:24:28 | WARNING  | preprocessing | Problèmes de schéma détectés : {&#39;meteo&#39;: [&#39;Orage&#39;], &#39;type_route&#39;: [&#39;Nationale&#39;, &#39;Autoroute&#39;], &#39;type_accident&#39;: [&#39;Collision moto&#39;], &#39;cause&#39;: [&#39;Sortie de route&#39;, &#39;Défaillance mécanique&#39;, &#39;Collision piéton&#39;, &#39;Mauvais état route&#39;, &#39;Inconnue&#39;]}
+2026-05-21 19:24:28 | INFO     | preprocessing | 
+Données nettoyées :
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+Shape     : 49,783 lignes × 30 colonnes
+Mémoire   : 3.1 MB
+Doublons  : 0
+
+Valeurs manquantes (top 10):
+  Aucune valeur manquante ✓
+============================================================
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-21 19:24:29 | INFO     | utils | DataFrame sauvegardé → ..\data\processed\accidents_clean.parquet (49,783 lignes)
+2026-05-21 19:24:29 | INFO     | preprocessing | ════════════════════════════════════════════════════════════
+2026-05-21 19:24:29 | INFO     | preprocessing | PIPELINE DE NETTOYAGE TERMINÉ
+2026-05-21 19:24:29 | INFO     | preprocessing | ════════════════════════════════════════════════════════════
+2026-05-21 19:24:29 | INFO     | utils | [Cleaning Pipeline] Temps d&#39;exécution : 3.33s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset nettoyé : (49783, 30)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="rapport-de-qualite-avant-apres">
+<h2>4. Rapport de qualité avant/après<a class="headerlink" href="#rapport-de-qualite-avant-apres" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quality_report</span> <span class="o">=</span> <span class="n">data_quality_report</span><span class="p">(</span><span class="n">df_raw</span><span class="p">,</span> <span class="n">df_clean</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RAPPORT DE QUALITÉ&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;═&#39;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">quality_report</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+<span class="n">quality_report</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../reports/tables/02_quality_report.csv&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RAPPORT DE QUALITÉ
+════════════════════════════════════════
+                         Valeur
+Lignes (brut)          50500.00
+Lignes (propre)        49783.00
+Lignes supprimées        717.00
+Taux de rétention (%)     98.58
+Colonnes                  30.00
+Mémoire (MB)               3.15
+Valeurs manquantes         0.00
+Doublons restants          0.00
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="validation-du-schema">
+<h2>5. Validation du schéma<a class="headerlink" href="#validation-du-schema" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">issues</span> <span class="o">=</span> <span class="n">validate_schema</span><span class="p">(</span><span class="n">df_clean</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">issues</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; Problèmes de schéma :&#39;</span><span class="p">,</span> <span class="n">issues</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;✓ Schéma validé — toutes les valeurs catégorielles sont conformes&#39;</span><span class="p">)</span>
+
+<span class="c1"># Distribution finale de la cible</span>
+<span class="n">target_final</span> <span class="o">=</span> <span class="n">df_clean</span><span class="p">[</span><span class="s1">&#39;gravite&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Distribution finale de la variable cible :&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">target_final</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">GRAVITE_COLORS</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">target_final</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">target_final</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">target_final</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">bar</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">target_final</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">+</span> <span class="mi">100</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="se">\n</span><span class="s1">(</span><span class="si">{</span><span class="n">val</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df_clean</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%)&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Distribution finale de la gravité&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Nombre d</span><span class="se">\&#39;</span><span class="s1">accidents&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../reports/figures/02_target_distribution.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⚠️ Problèmes de schéma : {&#39;meteo&#39;: [&#39;Orage&#39;], &#39;type_route&#39;: [&#39;Nationale&#39;, &#39;Autoroute&#39;], &#39;type_accident&#39;: [&#39;Collision moto&#39;], &#39;cause&#39;: [&#39;Sortie de route&#39;, &#39;Défaillance mécanique&#39;, &#39;Collision piéton&#39;, &#39;Mauvais état route&#39;, &#39;Inconnue&#39;]}
+
+Distribution finale de la variable cible :
+gravite
+Léger     26638
+Grave     13260
+Mortel     9885
+Name: count, dtype: int64
+</pre></div>
+</div>
+<img alt="_images/0a0a3de52fcbb29891af13dbce9e2c6fd5d4f2e3a9cdab897723de488f8bba84.png" src="_images/0a0a3de52fcbb29891af13dbce9e2c6fd5d4f2e3a9cdab897723de488f8bba84.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39; Données nettoyées sauvegardées dans data/processed/accidents_clean.parquet&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39; Prochaine étape : notebook 03_eda_visualization.ipynb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓ Données nettoyées sauvegardées dans data/processed/accidents_clean.parquet
+→ Prochaine étape : notebook 03_eda_visualization.ipynb
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_data_collection.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">01 — Collecte &amp; Exploration Initiale des Données</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_eda_visualization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">03 — Analyse Exploratoire des Données (EDA)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chargement-des-donnees-brutes">1. Chargement des données brutes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapes-de-nettoyage-pas-a-pas">2. Étapes de nettoyage (pas à pas)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-complet-de-nettoyage">3. Pipeline complet de nettoyage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rapport-de-qualite-avant-apres">4. Rapport de qualité avant/après</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-du-schema">5. Validation du schéma</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Petema Maleki
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
